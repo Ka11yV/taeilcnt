@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.npm-cache/
+.DS_Store
+.env
+.omx/
+static/2025_태일씨앤티_홍보영상_20250226.mp4
