@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect width="320" height="96" fill="white"/>
+  <g transform="translate(48 26)">
+    <ellipse cx="16" cy="14" rx="16" ry="9" fill="#f28c28" transform="rotate(-32 16 14)"/>
+    <ellipse cx="32" cy="24" rx="16" ry="9" fill="#2f6cc2" transform="rotate(32 32 24)"/>
+    <ellipse cx="20" cy="36" rx="16" ry="9" fill="#e04646" transform="rotate(90 20 36)"/>
+  </g>
+  <text x="116" y="58" font-family="Pretendard, Arial, sans-serif" font-size="28" font-weight="800" fill="#222">CJ E&amp;C</text>
+</svg>

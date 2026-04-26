@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect width="320" height="96" fill="white"/>
+  <g transform="translate(44 25)">
+    <polygon points="0,34 0,6 12,0 12,28" fill="#9b7a2d"/>
+    <polygon points="14,30 14,2 26,8 26,36" fill="#c6aa62"/>
+    <polygon points="28,26 28,10 40,16 40,42" fill="#314aa3"/>
+  </g>
+  <text x="102" y="58" font-family="Pretendard, Arial, sans-serif" font-size="24" font-weight="800" fill="#2c3d90">슈프림종합건설(주)</text>
+</svg>

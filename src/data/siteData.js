@@ -1,25 +1,55 @@
 import logo from '../assets/logo.png';
 import greetingImage from '../assets/greeting.jpg';
-import philosophyImage from '../assets/philosophy.png';
 import organizationImage from '../assets/organization.jpg';
 import esgOverviewImage from '../assets/esg-overview.png';
 import ethicsImage from '../assets/ethics.png';
 import environmentImage from '../assets/environment.jpg';
+import philosophyImage from '../assets/philosophy.png';
 import talentImage from '../assets/talent.jpg';
 import rewardImage from '../assets/reward.jpg';
-import evaluationImage from '../assets/evaluation.jpg';
 import signatureImage from '../assets/signature.jpg';
 import companyIntroVideo from '../assets/company-intro.mp4';
+import hrSystemTalentTitleImage from '../assets/recruit/body_img_01-1.jpg';
+import hrSystemEvaluationTitleImage from '../assets/recruit/body_img_01-2.jpg';
+import hrSystemRewardTitleImage from '../assets/recruit/body_img_01-3.jpg';
+import hrSystemTalentOriginalImage from '../assets/recruit/hr-system-talent-original.jpg';
+import hrSystemEvaluationOriginalImage from '../assets/recruit/hr-system-evaluation-original.jpg';
+import hrSystemRewardOriginalImage from '../assets/recruit/hr-system-reward-original.jpg';
 import samsungCtLogo from '../assets/partners/samsung-ct.svg';
 import samsungEaLogo from '../assets/partners/samsung-ea.svg';
 import hyundaiEngineeringLogo from '../assets/partners/hyundai-engineering.png';
+import hyundaiConstructionLogo from '../assets/partners/hyundai-construction.svg';
 import gsEcLogo from '../assets/partners/gs-ec.png';
+import cjEcLogo from '../assets/partners/cj-ec.svg';
+import koreaDevelopmentLogo from '../assets/partners/korea-development.svg';
+import dongbuConstructionLogo from '../assets/partners/dongbu-construction.svg';
+import ktEngcoreLogo from '../assets/partners/kt-engcore.svg';
+import supremeConstructionLogo from '../assets/partners/supreme-construction.svg';
 import dlEcLogo from '../assets/partners/dl-ec.png';
+import hyundaiAsanLogo from '../assets/partners/hyundai-asan.svg';
+import hanjinHeavyLogo from '../assets/partners/hanjin-heavy.svg';
+import poscoAcLogo from '../assets/partners/posco-ac.svg';
+import doosanConstructionLogo from '../assets/partners/doosan-construction.svg';
+import smUbangLogo from '../assets/partners/sm-ubang.svg';
+import shinsegaeConstructionLogo from '../assets/partners/shinsegae-ec.svg';
+import hanyangLogo from '../assets/partners/hanyang.svg';
+import hdcIparkLogo from '../assets/partners/hdc-ipark.svg';
 import skEcoplantLogo from '../assets/partners/sk-ecoplant.png';
 import cjLogisticsLogo from '../assets/partners/cj-logistics.png';
 import hlDniHallaLogo from '../assets/partners/hl-dni-halla.png';
 import daewooEncLogo from '../assets/partners/daewoo-enc.png';
+import beoksanEngineeringLogo from '../assets/partners/beoksan-engineering.svg';
+import dlConstructionLogo from '../assets/partners/dl-construction.svg';
 import kccConstructionLogo from '../assets/partners/kcc-construction.png';
+import newsAwardSamsungConstructionExcellenceImage from '../assets/news/news-award-samsung-construction-excellence.jpg';
+import newsYouthScholarshipEventImage from '../assets/news/news-youth-scholarship-event.jpg';
+import newsKibaSeoulChairmanInaugurationImage from '../assets/news/news-kiba-seoul-chairman-inauguration.jpg';
+import newsGvalleyAcademiaIndustryFairImage from '../assets/news/news-gvalley-academia-industry-fair.jpg';
+import newsRiskAssessmentAwardImage from '../assets/news/news-risk-assessment-award.jpg';
+import newsFunKimjangEsgEventImage from '../assets/news/news-fun-kimjang-esg-event.jpg';
+import newsKibaSeoulYearEndCeremonyImage from '../assets/news/news-kiba-year-end-ceremony.jpg';
+import newsSafetyHealthAwardImage from '../assets/news/news-safety-health-award.jpg';
+import newsGeumcheonAppreciationPlaqueImage from '../assets/news/news-geumcheon-appreciation-plaque.jpg';
 import projectDaisoImage from '../assets/projects/project-daiso-sejong-online-center.jpg';
 import projectDigitalEmpireImage from '../assets/projects/project-digital-empire-pyeongchon-bizvalley.jpg';
 import projectDogokDongsinImage from '../assets/projects/project-dogok-dongsin-apartment.jpg';
@@ -63,7 +93,7 @@ export const navigation = [
       { label: '인사말', slug: 'greeting' },
       { label: '경영이념', slug: 'philosophy' },
       { label: '회사연혁', slug: 'history' },
-      { label: '주거래 시공사', slug: 'partners' },
+      { label: '주 거래 시공사', slug: 'partners' },
       { label: '업·면허/인증', slug: 'certifications' },
       { label: '찾아오시는 길', slug: 'location' },
     ],
@@ -73,6 +103,7 @@ export const navigation = [
     section: 'performance',
     items: [
       { label: '공사수주 현황', slug: 'order-status' },
+      { label: '건설시공능력', slug: 'construction-capability' },
       { label: '주택', slug: 'housing' },
       { label: '업무시설', slug: 'office' },
       { label: '교육/의료', slug: 'education-medical' },
@@ -123,75 +154,292 @@ export const stats = [
 
 export const newsItems = [
   {
-    title: '한국청소년육성회 금천지구회 모범청소년 장학금 수여 행사 참여',
-    date: '2024.05.20',
-    category: '홍보',
-    summary: '지역사회와 함께 성장하는 기업으로서 장학금 수여 행사에 참여하고 사회공헌 활동을 이어갔습니다.',
+    slug: 'samsung-construction-excellence-award',
+    title: '삼성물산 공사수행 역량평가 수행우수사 선정, 최우수상 수상',
+    date: '2026.03.23',
+    category: '수상',
+    summary: '태일씨앤티가 삼성물산(주) 건설부문으로부터 2025년 공사수행 역량평가 수행우수사로 선정되어 최우수상을 수상했습니다.',
+    image: newsAwardSamsungConstructionExcellenceImage,
+    imageAlt: '삼성물산 공사수행 역량평가 수행우수사 선정 최우수상 수상 사진',
+    body: [
+      '태일씨앤티는 2026년 03월 23일 삼성물산(주) 건설부문으로부터',
+      "'25년 공사수행 역량평가 수행우수사'로 선정되어 최우수상을 수여 받았습니다.",
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
   },
   {
-    title: '김경수 대표, 한국산업단지경영자연합회 서울 6대 회장 취임',
-    date: '2024.05.15',
-    category: '기업소식',
-    summary: '산업 생태계와의 협력 기반을 강화하고 현장 중심의 경영 메시지를 확장했습니다.',
+    slug: 'youth-scholarship-event',
+    title: '한국청소년육성회 금천지구회 모범청소년 장학금 수여 행사 소식',
+    date: '2025.12.16',
+    category: '행사소식',
+    summary: '태경이노베이션이 한국청소년육성회 금천지구회 모범청소년 장학금 수여 행사에 참여해 지역사회 나눔 활동을 이어갔습니다.',
+    image: newsYouthScholarshipEventImage,
+    imageAlt: '모범청소년 장학금 수여 행사 현장 사진',
+    body: [
+      '태경이노베이션에서 한국청소년육성회 금천지구회 모범청소년 장학금 수여 행사를 진행 하였습니다.',
+      '일시 : 2025년 12월 16일',
+      '장소 : 금천구청',
+      '수여식 참석 : 태경이노베이션 최정훈 대표',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
   },
   {
-    title: '태일씨앤티, 제2회 G밸리 지산학한마당 참가',
-    date: '2024.05.10',
-    category: '홍보',
-    summary: '지역 산학 협력 네트워크 확대와 인재 채용 브랜딩 강화를 위해 행사에 참가했습니다.',
+    slug: 'kiba-seoul-chairman-inauguration',
+    title: '김경수 대표님 한국산업단지경영자연합회 서울 6대 회장 취임',
+    date: '2025.12.09',
+    category: '행사소식',
+    summary: '김경수 대표가 한국산업단지경영자연합회 서울 제6대 회장으로 취임하며 G밸리 산업 생태계 강화를 위한 비전을 공유했습니다.',
+    image: newsKibaSeoulChairmanInaugurationImage,
+    imageAlt: '김경수 대표 한국산업단지경영자연합회 서울 6대 회장 취임식 사진',
+    body: [
+      '김경수 대표님께서 12월 9일 한국산업단지경영자연합회서울(이하 KIBA서울) 제6대 회장에 취임하셨습니다.',
+      '김 회장님은 이날 오후 6시 G밸리에 위치한 L컨벤션에서 취임식을 갖고 본격 활동을 시작하셨습니다.',
+      '김 회장님은 이날 취임식에서 KIBA서울 제6대 회장 취임에 감사 인사를 전하며, G밸리와 산업 생태계에 헌신하는 모든 분들께 감사의 뜻을 밝혔습니다.',
+      'G밸리가 기술 변화와 산업 구조 전환의 중심에 있는 만큼, 회장으로서 큰 책임감을 느끼고 성과로 보답하겠다고 다짐하셨습니다.',
+      'AI·디지털 전환·ESG 등 빠르게 변하는 환경 속에서 기업들의 어려움을 인식하며, 위기를 기회로 바꾸기 위해 KIBA서울의 역할을 강화하겠다고 밝혔습니다.',
+      '핵심 운영 방향으로 ▲기업 애로 해결을 위한 컨트롤타워 강화 ▲기업 간 협업 생태계 구축 ▲정부·지자체 지원제도 활용도 제고 등을 제시하셨습니다.',
+      'G밸리를 혁신과 협력의 중심축으로 성장시키기 위해 낮은 자세로 소통하며, 입주기업과 함께 세계적 산업 생태계를 만들겠다는 의지를 강조하셨습니다.',
+      '김 회장님은 취임식 이후 곧바로 G밸리 입주기업의 애로와 규제 해소, 경영·근로환경 개선 등을 위해 유관단체 등을 방문하여 본격적인 활동을 시작할 예정입니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
   },
   {
-    title: 'Westin Seoul Parnas 리모델링공사 수주',
-    date: '2025.02.01',
-    category: '수주',
-    summary: '고난도 도심 복합시설 리모델링 공사 수주를 통해 프리미엄 프로젝트 수행 역량을 강화했습니다.',
+    slug: 'gvalley-academia-industry-fair',
+    title: '태일씨앤티, 제2회 G밸리 지산학한마당에 참가',
+    date: '2025.12.04',
+    category: '행사소식',
+    summary: '태일씨앤티가 제2회 G밸리 지산학한마당에 참가해 기업 홍보와 채용 면접을 진행하며 산학협력 네트워크를 확장했습니다.',
+    image: newsGvalleyAcademiaIndustryFairImage,
+    imageAlt: '제2회 G밸리 지산학한마당 행사 현장 사진',
+    body: [
+      '태일씨앤티(대표이사 김경수, 배준희)는 2025년 12월 4일~5일에 제2회 G밸리 지산학한마당에 참가 했습니다.',
+      '김경수 대표이사님께서는 KIBA 차기 회장으로서 축사 및 개막식 테이프컷팅 세리머니에도 직접 참여하셨습니다.',
+      '배준희 대표님께서도 참석하시어 뜻깊게 격려해 주셨습니다.',
+      '이번 행사는 동양미래대와 서울 서남권의 기업들이 서로를 알아가는 만남의 장을 마련하고, 동양미래대 RISE 사업의 성과를 공유한다는 취지로 마련되었습니다.',
+      '태일 직원들도 행사에 참여하여 회사 소개 부스에서 홍보 업무를 진행하고, 태일씨앤티 입사를 희망하는 재학생 및 졸업생을 대상으로 면접을 진행했습니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
+  },
+  {
+    slug: 'risk-assessment-award',
+    title: '2025년 위험성평가 우수사례 발표대표 대회 최우수상 수상',
+    date: '2025.11.25',
+    category: '수상',
+    summary: '태일씨앤티가 고용노동부와 한국산업안전보건공단이 주관한 2025년 위험성평가 우수사례 발표대회에서 건설분야 최우수상을 수상했습니다.',
+    image: newsRiskAssessmentAwardImage,
+    imageAlt: '2025년 위험성평가 우수사례 발표대표 대회 최우수상 수상 사진',
+    body: [
+      '2025년 11월 25일 고용노동부 와 한국산업안전보건공단 주관으로 실시한 2025년 위험성평가 우수사례 발표대회에서,',
+      '저희 (주)태일씨앤티가 건설분야(중·소) 최우수상을 수상 하였습니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
+  },
+  {
+    slug: 'fun-kimjang-esg-event',
+    title: '태일씨앤티, FUN한 김장담그기 ESG 행사 참가',
+    date: '2025.11.26',
+    category: '행사소식',
+    summary: '태일씨앤티가 G밸리 임직원 ESG 활동 프로그램에 참여해 지역 취약계층을 위한 김장 나눔 활동을 진행했습니다.',
+    image: newsFunKimjangEsgEventImage,
+    imageAlt: 'FUN한 김장담그기 ESG 행사 현장 사진',
+    body: [
+      '태일씨앤티(대표이사 김경수, 배준희)는 서울 G밸리 임직원의 ESG 활동을 지원하는 FUN한 김장담그기 행사에 참가하였습니다.',
+      '이날 행사에서는 500포기 김장김치를 금천누리종합사회복지관을 통해 G밸리 인근 어르신·저소득층 등 취약계층에 나누었습니다.',
+      '이번 G밸리 대환장 김장 페스타는 금천누리종합사회복지관과 공동으로 주최되었습니다.',
+      '태일씨앤티는 앞으로도 지역사회와 함께하는 ESG 실천을 이어갈 계획입니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
+  },
+  {
+    slug: 'kiba-seoul-year-end-and-inauguration',
+    title: 'KIBA서울 회장 이·취임식 및 송년회',
+    date: '2025.12.09',
+    category: '행사소식',
+    summary: '2025 KIBA서울 송년의 밤 및 회장 이·취임식 소식을 전하며 새로운 출발과 도약의 의미를 공유했습니다.',
+    image: newsKibaSeoulYearEndCeremonyImage,
+    imageAlt: 'KIBA서울 회장 이취임식 및 송년회 행사 사진',
+    body: [
+      '2025 KIBA서울 송년의 밤 및 회장 이·취임식이 개최되었습니다.',
+      '이번 행사는 이임회장님의 헌신에 감사드리고, 새롭게 출발하는 취임회장님과 함께 미래의 도약을 다짐하는 자리였습니다.',
+      '태일씨앤티도 새로운 KIBA서울 취임식 및 출발을 축하합니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
+  },
+  {
+    slug: 'safety-health-award',
+    title: '안전보건 체계구축·운영 우수상 수상',
+    date: '2025.11.19',
+    category: '수상',
+    summary: '태일씨앤티가 삼성형 인정제 관련 평가에서 안전관리 체계 구축·운영 우수사로 선정되어 상장을 수여받았습니다.',
+    image: newsSafetyHealthAwardImage,
+    imageAlt: '안전보건 체계구축 운영 우수상 수상 사진',
+    body: [
+      '태일씨앤티는 삼성형 인정제 관련하여 2025년 11월 19일 삼성물산(주) 건설안전연구소로 부터,',
+      '안전관리 체계 구축·운영 우수사로 선정되어 상장을 수여 받았습니다.',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
+  },
+  {
+    slug: 'geumcheon-appreciation-plaque',
+    title: '태일씨앤티, 금천구 관할내 후원기업 감사패 수상',
+    date: '2025.11.19',
+    category: '수상',
+    summary: '태일씨앤티가 희망온돌 따뜻한 겨울나기 사업 캠페인 선포식에서 금천구청으로부터 후원기업 감사패를 수상했습니다.',
+    image: newsGeumcheonAppreciationPlaqueImage,
+    imageAlt: '금천구 관할내 후원기업 감사패 수상 사진',
+    body: [
+      '금천구청에서는 11월 19일(수) 12층 대강당에서 2025 따뜻한 겨울나기사업 캠페인 선포식 기념행사를 개최하였습니다.',
+      '이날 태일씨앤티 김경수 대표님도 참석하시어 금천구청으로부터 표창장을 수상하셨습니다.',
+      '앞으로도 주변의 어려움에 조금이라도 기여하고자 노력하는 태일씨앤티가 되겠습니다.',
+      '행사명 : 희망온돌 따뜻한 겨울나기사업 캠페인 선포식',
+      '일시 : 2025.11.19 (수) 14:30~15:30',
+      '장소 : 금천구청 대강당 (12층)',
+      '참석 : 태일씨앤티(김경수대표), 태진이노베이션(전명훈대표)',
+    ],
+    sourceUrl: 'http://www.taeilcnt.co.kr/home/center/prom_01_list.jsp',
   },
 ];
 
+export const getNewsDetailPath = (newsSlug) => `/pr/news/${newsSlug}`;
+
 export const videos = [
   {
-    title: '태일씨앤티 기업 소개 영상',
-    description: '태일씨앤티의 사업영역과 조직, 핵심 메시지를 담은 공식 회사 소개 영상입니다.',
+    title: '태일씨앤티 기업 PR 영상 vol 07 - 2025.02.11',
+    description: '태일씨앤티의 최신 기업 PR 영상으로, 사업 영역과 현장 역량, 회사의 핵심 메시지를 영상으로 확인할 수 있습니다.',
     src: companyIntroVideo,
-    youtubeUrl: 'https://www.youtube.com/watch?v=-BP43hf0jIs',
-    embedUrl: 'https://www.youtube-nocookie.com/embed/-BP43hf0jIs?rel=0&modestbranding=1',
+    youtubeUrl: 'https://www.youtube.com/watch?v=5Z3fGjtwe4Y',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/5Z3fGjtwe4Y?rel=0&modestbranding=1',
+    publishedText: '1년 전',
+    duration: '12:10',
+    views: '조회수 137회',
   },
   {
-    title: '현장 홍보 콘텐츠',
-    description: '추가 홍보 영상은 최적화 후 순차적으로 공개 예정입니다. 현재는 뉴스와 회사 소개 영상 중심으로 운영합니다.',
-    placeholder: true,
+    title: '타설현황',
+    description: '태일씨앤티 공무기술팀과 전산팀이 소개하는 타설현황 전산화 사례 영상입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=xUbH2iPAxUQ',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/xUbH2iPAxUQ?rel=0&modestbranding=1',
+    publishedText: '1년 전',
+    duration: '2:52',
+    views: '조회수 39회',
+  },
+  {
+    title: '태일씨앤티 기업 PR 영상 vol 06 - 2024.02.29',
+    description: '평촌아크로타워와 로제타텍 사례를 포함한 기업 PR 영상입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=-BP43hf0jIs',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/-BP43hf0jIs?rel=0&modestbranding=1',
+    publishedText: '2년 전',
+    duration: '13:03',
+    views: '조회수 310회',
+  },
+  {
+    title: '태일씨앤티 기업 PR 영상 vol 05 2',
+    description: '기업 홍보 영상 vol 05의 컨펌 버전입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=HQbp7hn5DXo',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/HQbp7hn5DXo?rel=0&modestbranding=1',
+    publishedText: '2년 전',
+    duration: '10:42',
+    views: '조회수 38회',
+  },
+  {
+    title: '230510 태일씨앤티 기업 PR 영상 vol 04',
+    description: '태일씨앤티 기업 PR 영상 vol 04입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=TL5RVxM3QYk',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/TL5RVxM3QYk?rel=0&modestbranding=1',
+    publishedText: '2년 전',
+    duration: '10:12',
+    views: '조회수 209회',
+  },
+  {
+    title: '김경수 대표이사 2022년 동탑산업훈장 수상소감',
+    description: '김경수 대표이사의 동탑산업훈장 수상소감을 담은 영상입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=KW8_Zp2c8Og',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/KW8_Zp2c8Og?rel=0&modestbranding=1',
+    publishedText: '3년 전',
+    duration: '3:27',
+    views: '조회수 274회',
+  },
+  {
+    title: '태일씨앤티 사무실 이전, 새로운 시작',
+    description: '2022년 11월 사무실 이전과 새로운 시작의 의미를 담은 영상입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=eMN_RVwfVzo',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/eMN_RVwfVzo?rel=0&modestbranding=1',
+    publishedText: '3년 전',
+    duration: '3:28',
+    views: '조회수 531회',
+  },
+  {
+    title: '태일씨앤티 회사 소개영상',
+    description: '태일씨앤티의 회사 소개와 임직원 메시지를 담은 채널 초기 소개 영상입니다.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=2qDJLFsceFM',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/2qDJLFsceFM?rel=0&modestbranding=1',
+    publishedText: '5년 전',
+    duration: '13:44',
+    views: '조회수 268회',
   },
 ];
 
 export const partnerGroups = [
   '삼성물산',
   '삼성엔지니어링',
-  '현대엔지니어링',
-  'GS건설',
-  'DL이앤씨',
-  'DL건설',
-  'KCC건설',
-  'SK에코플랜트',
-  'CJ대한통운',
   'HL D&I 한라',
+  '현대엔지니어링',
+  '현대건설',
   '대우건설',
-  '신세계건설',
+  'GS건설',
+  'CJ E&C',
   '고려개발',
+  '동부건설',
+  'KT engcore',
+  '슈프림종합건설',
+  'DL이앤씨',
+  'KCC건설',
+  '현대아산',
+  '한진중공업',
+  '포스코A&C',
+  '두산건설',
+  'SM우방',
+  '신세계건설',
+  '한양',
+  'HDC현대산업개발',
+  'CJ대한통운',
+  'SK에코플랜트',
   '벽산엔지니어링',
+  'DL건설',
 ];
 
 export const partnerShowcase = [
   { name: '삼성물산', logo: samsungCtLogo, alt: '삼성물산 로고' },
   { name: '삼성엔지니어링', logo: samsungEaLogo, alt: '삼성E&A 로고' },
+  { name: 'HL D&I 한라', logo: hlDniHallaLogo, alt: 'HL D&I 한라 로고' },
   { name: '현대엔지니어링', logo: hyundaiEngineeringLogo, alt: '현대엔지니어링 로고' },
+  { name: '현대건설', logo: hyundaiConstructionLogo, alt: '현대건설 로고' },
+  { name: '대우건설', logo: daewooEncLogo, alt: '대우건설 로고' },
   { name: 'GS건설', logo: gsEcLogo, alt: 'GS건설 로고' },
+  { name: 'CJ E&C', logo: cjEcLogo, alt: 'CJ E&C 로고' },
+  { name: '고려개발', logo: koreaDevelopmentLogo, alt: '고려개발 로고' },
+  { name: '동부건설', logo: dongbuConstructionLogo, alt: '동부건설 로고' },
+  { name: 'KT engcore', logo: ktEngcoreLogo, alt: 'KT engcore 로고' },
+  { name: '슈프림종합건설', logo: supremeConstructionLogo, alt: '슈프림종합건설 로고' },
   { name: 'DL이앤씨', logo: dlEcLogo, alt: 'DL이앤씨 로고' },
   { name: 'KCC건설', logo: kccConstructionLogo, alt: 'KCC건설 로고' },
+  { name: '현대아산', logo: hyundaiAsanLogo, alt: '현대아산 로고' },
+  { name: '한진중공업', logo: hanjinHeavyLogo, alt: '한진중공업 로고' },
+  { name: '포스코A&C', logo: poscoAcLogo, alt: '포스코A&C 로고' },
+  { name: '두산건설', logo: doosanConstructionLogo, alt: '두산건설 로고' },
+  { name: 'SM우방', logo: smUbangLogo, alt: 'SM우방 로고' },
+  { name: '신세계건설', logo: shinsegaeConstructionLogo, alt: '신세계건설 로고' },
+  { name: '한양', logo: hanyangLogo, alt: '한양 로고' },
+  { name: 'HDC현대산업개발', logo: hdcIparkLogo, alt: 'HDC현대산업개발 로고' },
   { name: 'SK에코플랜트', logo: skEcoplantLogo, alt: 'SK에코플랜트 로고' },
   { name: 'CJ대한통운', logo: cjLogisticsLogo, alt: 'CJ대한통운 로고' },
-  { name: 'HL D&I 한라', logo: hlDniHallaLogo, alt: 'HL D&I 한라 로고' },
-  { name: '대우건설', logo: daewooEncLogo, alt: '대우건설 로고' },
+  { name: '벽산엔지니어링', logo: beoksanEngineeringLogo, alt: '벽산엔지니어링 로고' },
+  { name: 'DL건설', logo: dlConstructionLogo, alt: 'DL건설 로고' },
 ];
+
+export const allPartners = partnerGroups.map((name) => (
+  partnerShowcase.find((partner) => partner.name === name)
+  ?? { name, alt: `${name} 로고` }
+));
 
 const partnerShowcaseNameSet = new Set(partnerShowcase.map((partner) => partner.name));
 const partnerExtendedGroups = partnerGroups.filter((partner) => !partnerShowcaseNameSet.has(partner));
@@ -205,6 +453,81 @@ export const projectCategories = {
   retail: '판매시설',
   others: '기타',
 };
+
+export const constructionCapabilityRecords = [
+  {
+    year: '2024',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '66,974,298', regionalRank: '35 / 573', nationalRank: '61 / 12,463' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '9,850,873', regionalRank: '98 / 639', nationalRank: '216 / 3,960' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '9,850,873', regionalRank: '138 / 617', nationalRank: '249 / 2,956' },
+    ],
+  },
+  {
+    year: '2021',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '66,974,298', regionalRank: '35 / 573', nationalRank: '61 / 12,463' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '9,850,873', regionalRank: '98 / 639', nationalRank: '216 / 3,960' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '9,850,873', regionalRank: '138 / 617', nationalRank: '249 / 2,956' },
+    ],
+  },
+  {
+    year: '2020',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '67,603,368', regionalRank: '38 / 577', nationalRank: '64 / 11,891' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '9,645,623', regionalRank: '96 / 592', nationalRank: '218 / 3,594' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '9,645,623', regionalRank: '137 / 602', nationalRank: '261 / 2,766' },
+    ],
+  },
+  {
+    year: '2019',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '71,304,462', regionalRank: '30 / 578', nationalRank: '50 / 11,365' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '11,194,513', regionalRank: '80 / 554', nationalRank: '155 / 3,270' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '11,194,513', regionalRank: '106 / 571', nationalRank: '186 / 2,517' },
+    ],
+  },
+  {
+    year: '2018',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '74,064,478', regionalRank: '27 / 586', nationalRank: '44 / 11,136' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '12,315,674', regionalRank: '71 / 525', nationalRank: '131 / 3,092' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '12,315,674', regionalRank: '83 / 558', nationalRank: '144 / 2,362' },
+    ],
+  },
+  {
+    year: '2017',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '58,159,862', regionalRank: '28 / 581', nationalRank: '48 / 11,122' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '10,761,075', regionalRank: '63 / 522', nationalRank: '129 / 2,885' },
+      { field: '습식방수', license: '관악-14-03-01', amount: '10,761,075', regionalRank: '79 / 532', nationalRank: '137 / 2,324' },
+    ],
+  },
+  {
+    year: '2016',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '34,128,227', regionalRank: '50 / 585', nationalRank: '100 / 11,250' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '8,651,575', regionalRank: '73 / 488', nationalRank: '166 / 2,706' },
+      { field: '미방조적', license: '관악-14-03-01', amount: '8,651,575', regionalRank: '103 / 538', nationalRank: '171 / 2,168' },
+    ],
+  },
+  {
+    year: '2015',
+    unit: '단위: 천원',
+    rows: [
+      { field: '철근·콘크리트', license: '92-서울-10-440', amount: '14,960,049', regionalRank: '109 / 612', nationalRank: '263 / 11,582' },
+      { field: '비계구조물', license: '관악-14-06-01', amount: '5,856,429', regionalRank: '106 / 503', nationalRank: '244 / 2,644' },
+      { field: '미방조적', license: '관악-14-03-01', amount: '5,856,429', regionalRank: '147 / 548', nationalRank: '261 / 2,112' },
+    ],
+  },
+];
 
 export const projects = [
   {
@@ -529,99 +852,117 @@ export const featuredProjects = recentOrderProjects;
 
 const projectDetailOverrides = {
   '다이소 세종 온라인센터': {
-    address: '세종 권역 온라인 물류 거점',
-    scale: '온라인센터 중심의 물류 거점 시설',
-    method: '철근·콘크리트 구조 시공과 물류동선 대응형 공정 관리',
-    scope: '본동 및 부속 구조물 중심의 RC 공정 수행',
-    materials: '거푸집, 철근, 콘크리트 등 물류센터형 구조 시공 시스템 적용',
+    detailType: '.',
+    address: '세종특별자치시 소정면 고등리 805',
+    scale: '.',
+    method: '.',
+    scope: '.',
+    materials: '.',
+    duration: '2025.06.01~2026.09.11',
+    gallery: [{ src: projectDaisoImage, alt: '다이소 세종 온라인센터 조감도' }],
     overview: [
-      '세종 권역 온라인 물류 거점 구축 프로젝트로, 대규모 물류 운영에 대응하는 구조 안정성과 효율적인 공정 관리가 중요한 현장입니다.',
-      '기존 태일씨앤티 공사수주 상세페이지의 정보 구성 방식을 반영해 핵심 시공 정보를 한눈에 확인할 수 있도록 재구성했습니다.',
+      '세종특별자치시 소정면 고등리 805 부지에 조성되는 온라인 물류센터 프로젝트입니다.',
+      '기존 태일씨앤티 사업실적 상세페이지의 항목 구조를 기준으로 상세 정보를 동일한 흐름으로 확인할 수 있도록 구성했습니다.',
     ],
     keyPoints: [
-      '온라인 물류 거점에 적합한 구조 공정 대응',
-      '장기 일정 기반의 품질·안전 중심 현장 관리',
-      '물류 운영 동선을 고려한 협력사 공정 조율',
+      '판매시설 카테고리의 최신 수주 프로젝트',
+      '공사기간 중심 정보 구조 유지',
+      '기존 상세페이지와 유사한 레이아웃으로 재구성',
     ],
   },
   '용인 Cluster 1기 OBL': {
-    address: '경기 용인 반도체 클러스터 권역',
-    scale: '반도체 클러스터 기반 산업 인프라 시설',
-    method: '장기 공정 대응형 철근·콘크리트 구조 시공',
-    scope: '클러스터 지원시설 구조 공정 및 기반 인프라 대응',
-    materials: '클러스터 현장 특성에 맞춘 거푸집·철근·콘크리트 시스템 적용',
+    detailType: '.',
+    address: '경기 용인시 처인구 원삼면 보개원삼로1924번길 65#6 게이트',
+    scale: '.',
+    method: '.',
+    scope: '.',
+    materials: '.',
+    duration: '2025.02.14~2027.06.30',
+    gallery: [{ src: projectYonginOblImage, alt: '용인 Cluster 1기 OBL 조감도' }],
     overview: [
-      '용인 Cluster 1기 OBL은 반도체 클러스터 조성의 기반이 되는 지원 인프라 프로젝트로, 장기간의 공정 안정성과 품질 관리가 핵심입니다.',
-      '태일씨앤티는 산업 인프라 현장 경험을 바탕으로 구조 공정의 정확도와 일정 대응력을 강화하고 있습니다.',
+      '반도체 클러스터 조성 구간에서 수행 중인 기반 인프라 프로젝트입니다.',
+      '기존 사이트의 수주현황 상세페이지처럼 핵심 정보 항목을 우선적으로 보여주도록 정리했습니다.',
     ],
     keyPoints: [
-      '산업 인프라형 장기 공정 대응',
-      '대형 클러스터 현장 맞춤 품질 관리',
-      '협력사 연계형 구조 시공 운영',
+      '용인 클러스터 권역 프로젝트',
+      '공사기간 중심 정보 확인',
+      '기존 상세페이지 톤앤매너 반영',
     ],
   },
   'Westin Seoul Parnas 리모델링공사': {
-    address: '서울 도심 핵심 복합시설 권역',
-    scale: '호텔 및 복합시설 리모델링 프로젝트',
-    method: '기존 구조물 대응형 리모델링 공정 관리',
-    scope: '도심 복합시설 리모델링 관련 구조 공정 수행',
-    materials: '기존 시설 조건을 고려한 거푸집·철근·콘크리트 및 보강 공정 적용',
+    detailType: '.',
+    address: '서울 강남구 봉은사로 524',
+    scale: '.',
+    method: '.',
+    scope: '.',
+    materials: '.',
+    duration: '2025.01.22~2025.08.31',
+    gallery: [{ src: projectWestinImage, alt: 'Westin Seoul Parnas 리모델링공사 이미지' }],
     overview: [
-      'Westin Seoul Parnas 리모델링공사는 도심 핵심 입지의 복합시설을 대상으로 한 프로젝트로, 협소한 현장 조건과 정밀한 공정 조율이 중요합니다.',
-      '기존 건축물과 신규 공정이 맞물리는 리모델링 특성을 고려해 안정성과 완성도를 함께 확보하는 방향으로 상세페이지를 구성했습니다.',
+      '서울 강남구 봉은사로 524 소재 호텔 리모델링 프로젝트입니다.',
+      '기존 태일씨앤티 공사수주 상세페이지처럼 항목형 정보 전달에 집중한 상세 구조로 정리했습니다.',
     ],
     keyPoints: [
-      '도심 리모델링 현장 특화 공정 운영',
-      '기존 시설과 연계되는 정밀 시공 대응',
-      '짧은 일정 내 품질 확보 중심 관리',
+      '업무시설 카테고리 리모델링 사례',
+      '도심 입지 프로젝트',
+      '기존 사이트와 유사한 정보 배치',
     ],
   },
   '용인 Cluster 1기 공동구': {
-    address: '경기 용인 반도체 클러스터 권역',
-    scale: '클러스터 기반시설 운영을 위한 공동구 공사',
-    method: '산업 인프라형 철근·콘크리트 구조 시공',
-    scope: '공동구 구조체 및 기반시설 관련 공정 수행',
-    materials: '공동구 특성에 적합한 거푸집·철근·콘크리트 시스템 적용',
+    detailType: '.',
+    address: '경기 용인시 처인구 원삼면 보개원삼로1924번길 65#6 게이트',
+    scale: '.',
+    method: '.',
+    scope: '.',
+    materials: '.',
+    duration: '2024.10.23~2027.06.30',
+    gallery: [{ src: projectYonginUtilityTunnelImage, alt: '용인 Cluster 1기 공동구 조감도' }],
     overview: [
-      '용인 Cluster 1기 공동구는 클러스터 기반시설 운영의 핵심이 되는 프로젝트로, 장거리 선형 구조물에 대한 공정 정합성과 품질 유지가 중요합니다.',
-      '태일씨앤티는 산업시설 대응형 구조 시공 경험을 바탕으로 공동구 공사의 안정성과 시공 효율을 높이고 있습니다.',
+      '용인 반도체 클러스터 권역에서 수행 중인 공동구 프로젝트입니다.',
+      '기존 수주현황 상세페이지와 동일하게 이미지와 정보표 중심으로 내용을 정리했습니다.',
     ],
     keyPoints: [
-      '선형 구조물 공정 정합성 확보',
-      '장기 기반시설 현장 맞춤 품질 관리',
-      '클러스터 운영 인프라에 적합한 구조 대응',
+      '기타 카테고리 인프라 프로젝트',
+      '용인 클러스터 연계 사업',
+      '간결한 상세 정보 구조 유지',
     ],
   },
   '한국일보용산사옥 신축공사': {
-    address: '서울 용산구 권역',
-    scale: '건축면적 : 1,050m²(317.73PY)\n연면적 : 22,286m²(6,741.63PY)',
-    method: '도심 업무시설형 철근·콘크리트 구조 시공',
-    scope: '업무시설 본동 구조 공정 및 관련 부속 시설 대응',
-    materials: '도심 업무시설 현장에 맞춘 거푸집·철근·콘크리트 시스템 적용',
+    detailType: '업무시설, 근린생활시설',
+    address: '서울 용산구 갈월동 98-11',
+    scale: '건축면적 : 1,050m2(317.73PY)\n연면적 : 22,286m2(6,741.63PY)',
+    method: '지상 : SRC, 코어선행/ 지하 : TOP DOWN',
+    scope: '지하7층~지상20층',
+    materials: '.',
+    duration: '2024.10.21~2027.01.15',
+    gallery: [{ src: projectHankookilboImage, alt: '한국일보용산사옥 신축공사 조감도' }],
     overview: [
-      '한국일보용산사옥 신축공사는 서울 도심의 업무시설 프로젝트로, 제한된 도심 현장 환경 속에서도 정밀한 공정 관리와 일정 대응이 중요한 현장입니다.',
-      '업무시설 특성에 맞춘 구조 시공과 협력사 조율을 통해 안정적인 프로젝트 수행 체계를 구축하고 있습니다.',
+      '서울 용산구 갈월동 98-11 부지에서 진행 중인 업무시설 및 근린생활시설 신축공사입니다.',
+      '기존 사업실적 상세페이지에서 제공하던 규모, 공법, 범위 항목을 동일한 순서로 재구성했습니다.',
     ],
     keyPoints: [
-      '도심 업무시설 신축 현장 대응',
-      '연면적 22,286m² 규모의 구조 공정 관리',
-      '발주처·시공사 협업 기반 일정 운영',
+      '업무시설/근린생활시설 복합 프로젝트',
+      'SRC 및 TOP DOWN 공법 표기 반영',
+      '도심권 대형 프로젝트 정보 유지',
     ],
   },
   '디지털 엠파이어 평촌 비즈밸리 신축공사': {
+    detailType: '비즈밸리',
     address: '경기 안양시 동안구 호계동 533-1',
-    scale: '지하4층 지상18층\n건축면적 : 7,083m²(2,142py)\n연면적 : 99,168m²(29,998py)',
+    scale: '지하4층 지상18층\n건축면적 : 7,083M2(2,142py)\n연면적: 99,168M2(29,998py)',
     method: 'OPEN-CUT, RC',
     scope: '지하4층 지상18층',
     materials: '[지하층]\n기둥, 벽체 : 유로폼\n슬래브 : 데크\nELE. PIT : 갱폼\n[지상층]\n외부 벽체 : 갱폼\n내부 벽체, 기둥 : 유로폼\n슬래브 : 데크\nELE. PIT : 갱폼',
+    duration: '2024.08.21~2026.06.30',
+    gallery: [{ src: projectDigitalEmpireImage, alt: '디지털 엠파이어 평촌 비즈밸리 신축공사 조감도' }],
     overview: [
-      '디지털 엠파이어 평촌 비즈밸리 신축공사는 지하 4층, 지상 18층 규모의 복합 비즈니스 시설 프로젝트로, 대형 업무시설 공정 운영 경험을 보여주는 현장입니다.',
-      '기존 태일씨앤티 상세페이지 검색 인덱스에서 확인 가능한 규모·공법·범위·자재 항목을 반영해 리뉴얼 상세페이지에서도 정보 구조를 유지했습니다.',
+      '경기 안양시 동안구 호계동 533-1 부지의 비즈밸리 신축공사입니다.',
+      '기존 사이트에서 제공하던 규모·공법·범위·자재 구성을 유지해 상세 정보를 재배치했습니다.',
     ],
     keyPoints: [
-      '대형 비즈니스 시설 구조 공정 관리',
-      'OPEN-CUT, RC 기반 공법 운영',
-      '지하층·지상층 자재 시스템 분리 적용',
+      '비즈밸리 유형의 업무시설 프로젝트',
+      'OPEN-CUT, RC 공법 정보 제공',
+      '지하층·지상층 시공 자재 정보 유지',
     ],
   },
   '과천 지식정보타운 11-3블럭 신사옥 신축공사': {
@@ -682,12 +1023,14 @@ const buildProjectDetail = (project) => {
     eyebrow: 'PROJECT DETAIL',
     description: `${project.summary} 기존 태일씨앤티 공사수주 상세페이지의 정보 구조를 참고해 핵심 항목을 재정리했습니다.`,
     typeLabel: categoryLabel,
+    detailType: categoryLabel,
     address: `${project.region} 권역`,
     scale: project.summary,
     duration: project.duration.replaceAll(' ', ''),
     method: '철근·콘크리트 중심 공정 및 현장 여건별 맞춤 시공',
     scope: `${project.highlight} 관련 구조 공정 수행`,
     materials: '거푸집, 철근, 콘크리트 등 현장 조건에 맞춘 시스템 적용',
+    gallery: project.image ? [{ src: project.image, alt: project.imageAlt ?? `${project.name} 대표 이미지` }] : [],
     overview: [
       project.summary,
       `${project.client} 발주, ${project.contractor} 시공 프로젝트로 태일씨앤티의 ${project.highlight} 수행 역량을 보여주는 현장입니다.`,
@@ -740,7 +1083,7 @@ export const pages = {
             { title: '인사말', description: '대표 메시지와 기업이 지향하는 운영 철학', to: '/company/greeting' },
             { title: '경영이념', description: '하나된 태일, 혁신적인 태일, 백년대계 태일', to: '/company/philosophy' },
             { title: '회사연혁', description: '창립 이후 주요 수주, 인증, 조직 혁신의 흐름', to: '/company/history' },
-            { title: '주거래 시공사', description: '주요 파트너사와 협업 네트워크', to: '/company/partners' },
+            { title: '주 거래 시공사', description: '주요 파트너사와 협업 네트워크', to: '/company/partners' },
             { title: '업·면허/인증', description: '품질·환경·안전 중심의 인증 체계', to: '/company/certifications' },
             { title: '찾아오시는 길', description: '본사 위치와 연락처 안내', to: '/company/location' },
           ],
@@ -749,32 +1092,22 @@ export const pages = {
     },
     greeting: {
       eyebrow: 'GREETING',
-      title: '성공적인 프로젝트를 위한 탁월한 신뢰의 아이콘',
-      description:
-        '태일씨앤티는 기본과 원칙에 충실한 투명한 경영과 철저한 품질안전 관리로 고객감동을 실현하고자 합니다.',
+      title: '',
+      description: '',
       blocks: [
         {
-          type: 'spotlight',
+          type: 'companyGreeting',
           title: '대표 메시지',
-          body: [
-            '1994년 창립 기반 위에서 2013년 태일씨앤티로 새롭게 도약한 이후, 철근·콘크리트 전문건설 영역에서 차별화된 서비스를 제공하기 위해 새로운 도전을 이어오고 있습니다.',
-            '안전과 품질 역량 강화, 자재기술 및 관리 혁신, 전략적 인적자원 운영을 통해 국내외 건설산업 발전에 기여하는 전문기업으로 성장하고 있습니다.',
-            '태일씨앤티는 정직과 소통, 책임과 성장, 더 나은 방식, 공동체 의식이라는 태일인의 DNA를 바탕으로 혁신을 이어가겠습니다.',
-          ],
+          statement: '성공적인 프로젝트를 위한 탁월한 신뢰의 아이콘 태일씨앤티 입니다.',
           image: greetingImage,
           imageAlt: '인사말 대표 이미지',
-        },
-        {
-          type: 'quote',
-          quote: '고인 물을 바라보지 않고, 기꺼이 그 위를 넘어 성장하는 기업이 되겠습니다.',
-          caption: '태일씨앤티 대표 메시지 방향성',
-        },
-        {
-          type: 'media',
-          title: '대표 서명',
-          image: signatureImage,
-          imageAlt: '대표 서명 이미지',
-          compact: true,
+          signatureImage,
+          paragraphs: [
+            '1994년 창립 기반 위에서 2013년 태일씨앤티로 새롭게 도약한 이후, 철근·콘크리트 전문건설 영역에서 차별화된 서비스를 제공하기 위해 새로운 도전을 이어오고 있습니다.',
+            '책임완수, 근면성실, 인화단결의 사훈을 바탕으로 기본과 원칙에 충실한 투명한 경영 구조를 이루는 것과 동시에 철저한 품질안전 관리로 고객감동을 실현하고, 상호존중 및 소통을 바탕으로 협력사와 상생하고자 합니다.',
+            '태일씨앤티는 안전/품질 역량 강화, 자재기술 및 관리 혁신 등을 통하여 최상의 파트너십을 형성하여 국내외 건설산업발전에 기여하는 전문기업의 입지를 공고히 할 것입니다.',
+            '고인 물을 바라보지 않고, 기꺼이 그 위를 넘어 성장할 것이며 올바른 가치 창출을 위해 혁신을 거듭하는 태일씨앤티를 따뜻한 애정과 관심으로 지켜봐 주시기 바랍니다.',
+          ],
         },
       ],
     },
@@ -784,22 +1117,37 @@ export const pages = {
       description: '조직의 결속과 혁신, 장기적 성장의 균형을 통해 지속 가능한 기업 가치를 만들어갑니다.',
       blocks: [
         {
-          type: 'media',
+          type: 'philosophyRows',
           title: '경영이념',
-          image: philosophyImage,
-          imageAlt: '태일씨앤티 경영이념 이미지',
-        },
-        {
-          type: 'cards',
-          title: '태일인의 핵심 가치',
-          items: [
-            { title: '책임과 성장', description: '책임감을 바탕으로 배우고 성장하며 결과를 만들어냅니다.' },
-            { title: '정직과 소통', description: '원칙에 따라 정직하게 소통하며 신뢰를 구축합니다.' },
-            { title: '공동체 의식', description: '협업과 배려로 함께 어려움을 극복하는 조직문화를 지향합니다.' },
-            { title: '더 나은 방식', description: '현장을 관찰하고 개선해 더 효율적인 시공 방식을 찾습니다.' },
+          rows: [
+            {
+              heading: '비전',
+              body: '시대변화에 적응하여 누구보다 앞선 기술로 전문건설산업의 선도적 역할을 해 나갈 것입니다.',
+            },
+            {
+              heading: '핵심가치',
+              bullets: [
+                '① 고객감동 및 철저한 품질관리',
+                '② 무재해 완벽시공 철저한 사후관리',
+                '③ 지속적 기술개발과 원가절감',
+              ],
+              cards: [
+                { icon: 'quality', title: '고객감동 및 철저한 품질관리', description: '현장 품질 기준을 명확히 하고 고객 기대를 넘어서는 시공 품질을 지향합니다.' },
+                { icon: 'care', title: '무재해와 완벽시공 및 철저한 사후관리', description: '안전과 시공 완성도를 동시에 확보하고 끝까지 책임지는 운영을 실천합니다.' },
+                { icon: 'efficiency', title: '지속적인 기술개발 및 원가 절감 실행', description: '기술 혁신과 공정 개선을 통해 효율적인 현장 운영 체계를 구축합니다.' },
+              ],
+            },
+            {
+              heading: '슬로건',
+              slogans: [
+                { title: '① 하나된(One)', description: '뭉치면 강하다! 하나된 모습으로 나아갈 것입니다.', label: '하나된 태일!', badge: 'ONE' },
+                { title: '② 혁신적인(Innovative)', description: '우리는 창의적으로 발전해 나갈 것입니다.', label: '혁신적인 태일!', badge: 'INNOVATIVE' },
+                { title: '③ 백년대계(Forever)', description: '미래지향적인 계획을 실현할 것입니다.', label: '백년대계 태일!', badge: 'FOREVER' },
+              ],
+              sloganVisual: philosophyImage,
+              sloganVisualAlt: '태일씨앤티 경영이념 슬로건 이미지',
+            },
           ],
-          image: talentImage,
-          imageAlt: '태일씨앤티 인재상 이미지',
         },
       ],
     },
@@ -847,21 +1195,13 @@ export const pages = {
     },
     partners: {
       eyebrow: 'PARTNERS',
-      title: '주요 시공사와 함께 쌓아온 협업 신뢰',
-      description: '다양한 시공사와의 지속적 협업 경험은 태일씨앤티의 현장 대응력과 신뢰도를 보여주는 중요한 자산입니다.',
+      title: '주 거래 시공사',
+      description: '',
       blocks: [
         {
           type: 'partnerGrid',
-          title: '주요 협업 네트워크',
-          items: partnerShowcase,
-        },
-        {
-          type: 'cards',
-          title: '확장 협업 네트워크',
-          items: partnerExtendedGroups.map((partner) => ({
-            title: partner,
-            description: '장기적 협업 경험과 현장 이해도를 바탕으로 안정적인 공정 수행',
-          })),
+          items: allPartners,
+          variant: 'catalog',
         },
       ],
     },
@@ -950,6 +1290,18 @@ export const pages = {
           : []),
       ],
     },
+    'construction-capability': {
+      eyebrow: 'CONSTRUCTION CAPABILITY',
+      title: '건설시공능력',
+      description: '태일씨앤티 공식 홈페이지의 건설시공능력 페이지 기준으로 연도별 시공능력평가액과 지역·전국 순위를 정리했습니다.',
+      blocks: [
+        {
+          type: 'capabilityTables',
+          title: '연도별 시공능력 평가',
+          items: constructionCapabilityRecords,
+        },
+      ],
+    },
     housing: {
       eyebrow: 'HOUSING',
       title: '주택 프로젝트',
@@ -1024,7 +1376,7 @@ export const pages = {
     youtube: {
       eyebrow: 'YOUTUBE',
       title: '영상으로 보는 태일씨앤티',
-      description: '회사 소개 영상과 향후 확장될 홍보 영상 콘텐츠를 확인할 수 있습니다.',
+      description: '태일씨앤티경영기획실 유튜브 채널에 공개된 영상 콘텐츠를 한곳에서 확인할 수 있습니다.',
       blocks: [{ type: 'videoList', title: '영상 콘텐츠', items: videos }],
     },
   },
@@ -1039,6 +1391,7 @@ export const pages = {
           title: 'ESG 개요',
           image: esgOverviewImage,
           imageAlt: '태일씨앤티 ESG 개요 이미지',
+          variant: 'poster',
         },
         {
           type: 'cards',
@@ -1054,6 +1407,7 @@ export const pages = {
           title: '윤리경영',
           image: ethicsImage,
           imageAlt: '태일씨앤티 윤리경영 이미지',
+          variant: 'wide',
         },
         {
           type: 'cards',
@@ -1068,6 +1422,7 @@ export const pages = {
           ],
           image: environmentImage,
           imageAlt: '태일씨앤티 환경경영 방침 이미지',
+          variant: 'poster',
         },
       ],
     },
@@ -1130,19 +1485,34 @@ export const pages = {
     },
     'hr-system': {
       eyebrow: 'HR SYSTEM',
-      title: '성과와 성장의 선순환을 만드는 인사제도',
-      description: '업적과 역량을 함께 평가하고, 평가 결과를 보상·승진·육성에 연계합니다.',
+      title: '인사제도',
+      description: '',
       blocks: [
         {
-          type: 'cards',
-          title: '인사제도 핵심',
+          type: 'hrPanels',
           items: [
-            { title: '업적평가', description: '프로젝트 성과와 역할 수행 결과를 중심으로 평가합니다.' },
-            { title: '역량평가', description: '직무 수행 능력과 협업 역량, 개선 의지를 함께 살핍니다.' },
-            { title: '피드백 연계', description: '평가 결과는 보상, 승진, 역량 개발 계획에 반영됩니다.' },
+            {
+              title: '인재상',
+              titleImage: hrSystemTalentTitleImage,
+              titleImageAlt: '태일씨앤티 인재상 타이틀 이미지',
+              contentImage: hrSystemTalentOriginalImage,
+              contentImageAlt: '태일씨앤티 인재상 안내 이미지',
+            },
+            {
+              title: '평가제도',
+              titleImage: hrSystemEvaluationTitleImage,
+              titleImageAlt: '태일씨앤티 평가제도 타이틀 이미지',
+              contentImage: hrSystemEvaluationOriginalImage,
+              contentImageAlt: '태일씨앤티 평가제도 안내 이미지',
+            },
+            {
+              title: '보상제도',
+              titleImage: hrSystemRewardTitleImage,
+              titleImageAlt: '태일씨앤티 보상제도 타이틀 이미지',
+              contentImage: hrSystemRewardOriginalImage,
+              contentImageAlt: '태일씨앤티 보상제도 안내 이미지',
+            },
           ],
-          image: evaluationImage,
-          imageAlt: '태일씨앤티 성과평가 제도 이미지',
         },
       ],
     },

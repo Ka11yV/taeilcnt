@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -22,6 +22,7 @@ import {
 import { Link, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import {
   brand,
+  getNewsDetailPath,
   featuredProjects,
   getProjectDetailPath,
   homeSections,
@@ -34,6 +35,7 @@ import {
   projects,
   videos,
 } from './data/siteData';
+import tomorrowHeroImage from '../static/tomorrow.png';
 
 const sectionIcons = {
   company: Building2,
@@ -54,7 +56,39 @@ const categoryIcons = {
   others: HardHat,
 };
 
+const heroHotspots = [
+  {
+    id: 'plant',
+    title: '플랜트 시공',
+    description: '산업시설과 플랜트 구조물 공정 수행 역량',
+    top: '34%',
+    left: '24%',
+  },
+  {
+    id: 'residential',
+    title: '주택·초고층',
+    description: '도심 주거와 고층 복합개발 프로젝트 경험',
+    top: '34%',
+    left: '72%',
+  },
+  {
+    id: 'office',
+    title: '수원연무동 주상복합',
+    description: '도심 복합개발 현장의 주거·상업 복합 시공 프로젝트',
+    top: '56%',
+    left: '68%',
+  },
+  {
+    id: 'logistics',
+    title: '다이소 세종 온라인센터',
+    description: '대형 온라인 물류 거점 시공 수행 프로젝트',
+    top: '64%',
+    left: '88%',
+  },
+];
+
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const toDateTimeValue = (dateText) => dateText?.replaceAll('.', '-');
 
 function getHomeHeroMotion() {
   if (typeof window === 'undefined') {
@@ -113,6 +147,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout><HomePage /></Layout>} />
       <Route path="/performance/order-status/:projectName" element={<Layout><ProjectDetailPage /></Layout>} />
+      <Route path="/pr/news/:newsSlug" element={<Layout><NewsDetailPage /></Layout>} />
       <Route path="/:section" element={<Layout><SectionPage /></Layout>} />
       <Route path="/:section/:slug" element={<Layout><SectionPage /></Layout>} />
       <Route path="*" element={<Layout><NotFoundPage /></Layout>} />
@@ -124,10 +159,28 @@ function Layout({ children }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const previousPathRef = useRef(location.pathname);
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const previousPath = previousPathRef.current;
+    const currentPath = location.pathname;
+
+    const previousParts = previousPath.split('/').filter(Boolean);
+    const currentParts = currentPath.split('/').filter(Boolean);
+
+    const isSameSectionSubnavChange =
+      previousParts.length >= 1 &&
+      currentParts.length >= 1 &&
+      previousParts[0] === currentParts[0] &&
+      previousParts[0] === 'company';
+
+    if (!isSameSectionSubnavChange) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    previousPathRef.current = currentPath;
   }, [location.pathname, location.hash]);
 
   return (
@@ -277,41 +330,25 @@ function HomePage() {
       <section className="hero-section">
         <div className="hero-pin">
           <div className="hero-canvas">
-            <div className="hero-copy hero-copy-intro" style={{ opacity: heroMotion.introOpacity, transform: `translateY(${heroMotion.introOffset}px)` }}>
-              <span className="hero-eyebrow">TRUST &amp; PROFESSIONAL</span>
-              <h1>
-                오늘의 안전은 어제로부터,
-                <br />
-                내일의 안전은 오늘로부터!
-              </h1>
-            </div>
-
-            <div className="hero-copy hero-copy-immersive" style={{ opacity: heroMotion.immersiveOpacity, transform: `translateY(${heroMotion.immersiveOffset}px)` }}>
-              <span className="hero-eyebrow">TAEIL C&amp;T</span>
-              <h1>
-                오늘의 안전은 어제로부터,
-                <br />
-                내일의 안전은 오늘로부터!
-              </h1>
-              <Link
-                className="hero-cta"
-                to="/performance/order-status"
-                style={{
-                  opacity: heroMotion.ctaOpacity,
-                  transform: `translateY(${heroMotion.ctaOffset}px)`,
-                  pointerEvents: heroMotion.ctaOpacity > 0.55 ? 'auto' : 'none',
-                }}
-              >
-                공사수주 현황 보기
-                <ArrowRight size={18} />
-              </Link>
-            </div>
-
             <div className="hero-media-reveal" style={heroMotion.mediaStyle}>
-              <video className="hero-media-video" autoPlay muted loop playsInline preload="metadata">
-                <source src={videos[0].src} type="video/mp4" />
-              </video>
-              <div className="hero-media-overlay" style={{ opacity: heroMotion.mediaShadeOpacity }} />
+              <img className="hero-media-asset hero-media-poster" src={tomorrowHeroImage} alt="태일씨앤티 메인 비주얼" />
+              <div className="hero-hotspot-layer" aria-label="메인 비주얼 주요 사업영역 안내">
+                {heroHotspots.map((spot) => (
+                  <button
+                    key={spot.id}
+                    type="button"
+                    className="hero-hotspot"
+                    style={{ top: spot.top, left: spot.left }}
+                    aria-label={`${spot.title}: ${spot.description}`}
+                  >
+                    <span className="hero-hotspot-dot" aria-hidden="true" />
+                    <span className="hero-hotspot-tooltip">
+                      <strong>{spot.title}</strong>
+                      <small>{spot.description}</small>
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="hero-scroll-cue" style={{ opacity: heroMotion.cueOpacity }}>
@@ -365,12 +402,21 @@ function HomePage() {
 
             <div className="home-news-board-list">
               {newsItems.slice(0, 3).map((item) => (
-                <article key={`${item.title}-${item.date}`} className="home-news-board-item">
+                <Link
+                  key={`${item.title}-${item.date}`}
+                  className="home-news-board-item"
+                  to={getNewsDetailPath(item.slug)}
+                >
                   <span className="news-meta">{item.category}</span>
                   <h3>{item.title}</h3>
                   <p>{item.summary}</p>
-                  <time dateTime={item.date}>{item.date}</time>
-                </article>
+                  <div className="home-news-board-foot">
+                    <time dateTime={toDateTimeValue(item.date)}>{item.date}</time>
+                    <span className="home-news-board-more">
+                      기사 보기 <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -512,13 +558,6 @@ function LegacyTopVisual({ section, navGroup, visualSource }) {
 
   return (
     <section className={`legacy-top-visual legacy-top-visual-${section}`}>
-      {visualSource ? (
-        <div
-          className="legacy-top-visual-media"
-          style={{ backgroundImage: `linear-gradient(90deg, rgba(10, 21, 18, 0.72), rgba(10, 21, 18, 0.36)), url(${visualSource})` }}
-          aria-hidden="true"
-        />
-      ) : null}
       <div className="container legacy-top-visual-inner">
         <div className="legacy-page-title">
           <h2>{meta.english}</h2>
@@ -560,9 +599,11 @@ function SectionPage() {
 
   const currentLabel = slug ? navGroup.items.find((item) => item.slug === slug)?.label ?? page.title : navGroup.label;
   const visualSource = getLegacyVisualSource(section, pageKey, page);
+  const hasSummaryTitle = Boolean(page.title?.trim()) && page.title !== currentLabel;
+  const hasSummaryDescription = Boolean(page.description?.trim());
 
   return (
-    <div className="subpage-shell legacy-page-shell">
+    <div className={`subpage-shell legacy-page-shell legacy-section-${section}`}>
       <LegacyTopVisual section={section} navGroup={navGroup} visualSource={visualSource} />
 
       <div className="container legacy-container-box">
@@ -571,10 +612,12 @@ function SectionPage() {
         </header>
 
         <div className="legacy-contents">
-          <div className="legacy-summary-box">
-            {page.title !== currentLabel ? <strong>{page.title}</strong> : null}
-            <p>{page.description}</p>
-          </div>
+          {hasSummaryTitle || hasSummaryDescription ? (
+            <div className="legacy-summary-box">
+              {hasSummaryTitle ? <strong>{page.title}</strong> : null}
+              {hasSummaryDescription ? <p>{page.description}</p> : null}
+            </div>
+          ) : null}
 
           <PageBlocks blocks={page.blocks} />
         </div>
@@ -614,10 +657,17 @@ function ProjectDetailPage() {
     { label: '시 공 자 재', value: detail.materials ?? '.' },
   ];
 
+  const overviewItems = [
+    { icon: HardHat, label: '분야', value: projectCategories[project.category] ?? '사업실적' },
+    { icon: MapPinned, label: '지역', value: project.region },
+    { icon: CalendarRange, label: '공사기간', value: detail.duration ?? project.duration },
+    { icon: Building2, label: '상태', value: project.status },
+  ];
+
   const activeGalleryImage = gallery[activeImageIndex] ?? null;
 
   return (
-    <div className="subpage-shell legacy-page-shell">
+    <div className="subpage-shell legacy-page-shell legacy-section-performance">
       <LegacyTopVisual section="performance" navGroup={navGroup} visualSource={project.image} />
 
       <div className="container legacy-container-box">
@@ -628,7 +678,11 @@ function ProjectDetailPage() {
         <div className="legacy-contents">
           <section className="legacy-order-view">
             <div className="legacy-order-image">
-              <h3>{project.name}</h3>
+              <div className="legacy-order-heading">
+                <span className="legacy-order-type-badge">{projectCategories[project.category] ?? '사업실적'}</span>
+                <h3>{project.name}</h3>
+                {project.summary ? <p className="legacy-order-summary">{project.summary}</p> : null}
+              </div>
 
               {activeGalleryImage ? (
                 <div className="legacy-order-image-frame">
@@ -659,6 +713,18 @@ function ProjectDetailPage() {
                   ))}
                 </div>
               ) : null}
+
+              <div className="legacy-order-overview-grid">
+                {overviewItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="legacy-order-overview-card">
+                      <span className="legacy-order-overview-label"><Icon size={16} /> {item.label}</span>
+                      <strong>{item.value || '.'}</strong>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="legacy-order-content">
@@ -685,21 +751,109 @@ function ProjectDetailPage() {
   );
 }
 
+function NewsDetailPage() {
+  const { newsSlug } = useParams();
+  const navGroup = navigation.find((item) => item.section === 'pr');
+  const newsItem = newsItems.find((item) => item.slug === newsSlug);
+
+  if (!navGroup || !newsItem) {
+    return <NotFoundPage />;
+  }
+
+  const relatedNews = newsItems
+    .filter((item) => item.slug !== newsItem.slug)
+    .slice(0, 3);
+
+  return (
+    <div className="subpage-shell legacy-page-shell legacy-section-pr">
+      <LegacyTopVisual section="pr" navGroup={navGroup} visualSource={newsItem.image} />
+
+      <div className="container legacy-container-box">
+        <header className="legacy-title-header">
+          <h2>뉴스</h2>
+        </header>
+
+        <div className="legacy-contents">
+          <article className="news-detail-shell">
+            <header className="news-detail-header">
+              <span className="news-meta">{newsItem.category}</span>
+              <h3>{newsItem.title}</h3>
+              <div className="news-detail-submeta">
+                <time dateTime={toDateTimeValue(newsItem.date)}>{newsItem.date}</time>
+                <a
+                  className="news-detail-source"
+                  href={newsItem.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  원문 출처 보기 <ArrowRight size={16} />
+                </a>
+              </div>
+            </header>
+
+            <div className="news-detail-media">
+              <img
+                src={newsItem.image}
+                alt={newsItem.imageAlt ?? `${newsItem.title} 대표 이미지`}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <div className="news-detail-body">
+              {newsItem.body.map((paragraph, index) => (
+                <p key={`${newsItem.slug}-paragraph-${index + 1}`}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
+
+          {relatedNews.length > 0 ? (
+            <section className="news-detail-related">
+              <div className="news-detail-related-header">
+                <h4>다른 뉴스</h4>
+              </div>
+              <div className="news-list news-list-featured">
+                {relatedNews.map((item) => (
+                  <NewsCard key={`${item.slug}-related`} item={item} variant="featured" />
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          <div className="legacy-order-bottom">
+            <Link className="legacy-list-button" to="/pr/news">
+              목록
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PageBlocks({ blocks }) {
   return (
     <div className="page-blocks">
       {blocks.map((block, index) => {
         switch (block.type) {
+          case 'companyGreeting':
+            return <CompanyGreetingBlock key={`${block.title}-${index}`} block={block} />;
+          case 'philosophyRows':
+            return <PhilosophyRowsBlock key={`${block.title}-${index}`} block={block} />;
           case 'spotlight':
             return <SpotlightBlock key={`${block.title}-${index}`} block={block} />;
           case 'cards':
             return <CardsBlock key={`${block.title}-${index}`} block={block} />;
           case 'partnerGrid':
             return <PartnerGridBlock key={`${block.title}-${index}`} block={block} />;
+          case 'hrPanels':
+            return <HrPanelsBlock key={`hr-panels-${index}`} block={block} />;
           case 'timeline':
             return <TimelineBlock key={`${block.title}-${index}`} block={block} />;
           case 'projectList':
             return <ProjectListBlock key={`${block.title}-${index}`} block={block} />;
+          case 'capabilityTables':
+            return <CapabilityTablesBlock key={`${block.title}-${index}`} block={block} />;
           case 'metrics':
             return <MetricsBlock key={`${block.title}-${index}`} block={block} />;
           case 'newsList':
@@ -721,6 +875,126 @@ function PageBlocks({ blocks }) {
         }
       })}
     </div>
+  );
+}
+
+function CompanyGreetingBlock({ block }) {
+  return (
+    <section className="content-block company-greeting-block">
+      {block.statement ? (
+        <div className="company-greeting-statement">
+          <p>{block.statement}</p>
+        </div>
+      ) : null}
+
+      <div className="company-greeting-layout">
+        <div className="company-greeting-image-wrap">
+          <div className="media-frame company-greeting-image">
+            <img src={block.image} alt={block.imageAlt} loading="lazy" decoding="async" />
+          </div>
+        </div>
+
+        <div className="company-greeting-copy">
+          {block.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+
+          {block.signatureImage ? (
+            <div className="company-greeting-signature">
+              <img src={block.signatureImage} alt="대표 서명" loading="lazy" decoding="async" />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PhilosophyRowsBlock({ block }) {
+  const philosophyIconMap = {
+    quality: ShieldCheck,
+    care: FileText,
+    efficiency: Landmark,
+  };
+
+  return (
+    <section className="content-block philosophy-rows-block">
+      <div className="philosophy-rows">
+        {block.rows.map((row) => (
+          <article key={row.heading} className="philosophy-row">
+            <div className="philosophy-row-heading">
+              <span />
+              <h3>{row.heading}</h3>
+            </div>
+
+            <div className="philosophy-row-body">
+              {row.body ? (
+                <p className="philosophy-row-description">{row.body}</p>
+              ) : null}
+
+              {row.bullets ? (
+                <ul className="philosophy-bullet-list">
+                  {row.bullets.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {row.cards ? (
+                <div className="philosophy-value-cards">
+                  {row.cards.map((item) => {
+                    const Icon = philosophyIconMap[item.icon] ?? ShieldCheck;
+
+                    return (
+                      <article key={item.title} className="philosophy-value-card">
+                        <div className="philosophy-value-icon">
+                          <Icon size={30} />
+                        </div>
+                        <strong>{item.title}</strong>
+                        <p>{item.description}</p>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : null}
+
+              {row.slogans ? (
+                <div className="philosophy-slogan-layout">
+                  <div className="philosophy-slogan-copy">
+                    {row.slogans.map((item) => (
+                      <article key={item.title} className="philosophy-slogan-copy-item">
+                        <strong>{item.title}</strong>
+                        <p>{item.description}</p>
+                      </article>
+                    ))}
+                  </div>
+
+                  {row.sloganVisual ? (
+                    <div className="philosophy-slogan-visual">
+                      <img
+                        src={row.sloganVisual}
+                        alt={row.sloganVisualAlt ?? `${row.heading} 이미지`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ) : (
+                    <div className="philosophy-slogan-pills">
+                      {row.slogans.map((item) => (
+                        <div key={item.badge} className="philosophy-slogan-pill">
+                          <span>{item.label}</span>
+                          <strong>{item.badge}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -747,9 +1021,11 @@ function SpotlightBlock({ block }) {
 function CardsBlock({ block }) {
   return (
     <section className="content-block">
-      <div className="content-heading">
-        <h2>{block.title}</h2>
-      </div>
+      {block.title ? (
+        <div className="content-heading">
+          <h2>{block.title}</h2>
+        </div>
+      ) : null}
       {block.image ? (
         <div className="media-frame card-block-image">
           <img src={block.image} alt={block.imageAlt} loading="lazy" decoding="async" />
@@ -778,12 +1054,74 @@ function CardsBlock({ block }) {
 }
 
 function PartnerGridBlock({ block }) {
+  if (block.variant === 'catalog') {
+    return (
+      <section className="content-block partner-catalog-block">
+        <div className="partner-logo-grid" aria-label="주 거래 시공사 목록">
+          {block.items.map((partner) => (
+            <article key={partner.name} className="partner-grid-tile">
+              <div className="partner-grid-frame">
+                {partner.logo ? (
+                  <img
+                    className="partner-grid-image"
+                    src={partner.logo}
+                    alt={partner.alt ?? `${partner.name} 로고`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <strong className="partner-grid-text">{partner.name}</strong>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="content-block">
-      <div className="content-heading">
-        <h2>{block.title}</h2>
-      </div>
+      {block.title ? (
+        <div className="content-heading">
+          <h2>{block.title}</h2>
+        </div>
+      ) : null}
       <PartnerLogoWall partners={block.items} />
+    </section>
+  );
+}
+
+function HrPanelsBlock({ block }) {
+  return (
+    <section className="content-block hr-panels-block">
+      <div className="hr-panels-list">
+        {block.items.map((item) => (
+          <article key={item.title} className="hr-panel-row">
+            <div className="hr-panel-title-card">
+              <img
+                src={item.titleImage}
+                alt={item.titleImageAlt ?? `${item.title} 타이틀 이미지`}
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="hr-panel-title-overlay">
+                <span />
+                <h3>{item.title}</h3>
+              </div>
+            </div>
+
+            <div className="hr-panel-content-card">
+              <img
+                src={item.contentImage}
+                alt={item.contentImageAlt ?? `${item.title} 안내 이미지`}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -846,13 +1184,15 @@ function ProjectCard({ project, detailed = false }) {
             <Icon size={36} />
           </div>
         )}
+        {detailed ? (
+          <div className="project-card-media-overlay">
+            <span className="project-card-media-badge">{projectCategories[project.category]}</span>
+            <strong>{project.highlight}</strong>
+          </div>
+        ) : null}
       </div>
 
       <div className="project-card-body">
-        <div className="project-badge">
-          <Icon size={18} />
-          <span>{projectCategories[project.category]}</span>
-        </div>
         <h3>{project.name}</h3>
         <div className="project-meta">
           <span><MapPinned size={14} /> {project.region}</span>
@@ -884,6 +1224,69 @@ function ProjectCard({ project, detailed = false }) {
   );
 }
 
+function CapabilityTablesBlock({ block }) {
+  const [openYear, setOpenYear] = useState(block.items[0]?.year ?? '');
+
+  return (
+    <section className="content-block capability-block">
+      <div className="content-heading">
+        <h2>{block.title}</h2>
+      </div>
+      <div className="capability-accordion">
+        {block.items.map((item) => (
+          <details
+            key={item.year}
+            className="capability-item"
+            open={openYear === item.year}
+            onToggle={(event) => {
+              if (event.currentTarget.open) {
+                setOpenYear(item.year);
+              } else if (openYear === item.year) {
+                setOpenYear('');
+              }
+            }}
+          >
+            <summary
+              className="capability-summary"
+              onClick={(event) => {
+                event.preventDefault();
+                setOpenYear((current) => (current === item.year ? '' : item.year));
+              }}
+            >
+              <strong>{item.year}</strong>
+              <span>{item.unit}</span>
+            </summary>
+            <div className="capability-table-wrap">
+              <table className="capability-table">
+                <thead>
+                  <tr>
+                    <th>업종</th>
+                    <th>등록번호</th>
+                    <th>시공능력평가액</th>
+                    <th>지역순위</th>
+                    <th>전국순위</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {item.rows.map((row) => (
+                    <tr key={`${item.year}-${row.field}`}>
+                      <td>{row.field}</td>
+                      <td>{row.license}</td>
+                      <td>{row.amount}</td>
+                      <td>{row.regionalRank}</td>
+                      <td>{row.nationalRank}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function MetricsBlock({ block }) {
   return (
     <section className="content-block">
@@ -902,19 +1305,49 @@ function MetricsBlock({ block }) {
   );
 }
 
+function NewsCard({ item, variant = 'archive' }) {
+  return (
+    <Link className={`news-card-link news-card-link-${variant}`} to={getNewsDetailPath(item.slug)}>
+      <article className={`news-card news-card-${variant}`}>
+        <div className="news-card-media">
+          {item.image ? (
+            <img
+              src={item.image}
+              alt={item.imageAlt ?? `${item.title} 대표 이미지`}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div className="news-card-placeholder">
+              <Newspaper size={40} />
+            </div>
+          )}
+        </div>
+
+        <div className="news-card-body">
+          <span className="news-meta">{item.category} · {item.date}</span>
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+          <span className="news-card-more">
+            기사 보기 <ArrowRight size={16} />
+          </span>
+        </div>
+      </article>
+    </Link>
+  );
+}
+
 function NewsBlock({ block }) {
+  const variant = block.items.length <= 3 ? 'featured' : 'archive';
+
   return (
     <section className="content-block">
       <div className="content-heading">
         <h2>{block.title}</h2>
       </div>
-      <div className="news-list">
+      <div className={`news-list news-list-${variant}`}>
         {block.items.map((item) => (
-          <article key={`${item.title}-${item.date}`} className="news-item">
-            <span className="news-meta">{item.category} · {item.date}</span>
-            <h3>{item.title}</h3>
-            <p>{item.summary}</p>
-          </article>
+          <NewsCard key={`${item.title}-${item.date}`} item={item} variant={variant} />
         ))}
       </div>
     </section>
@@ -958,6 +1391,13 @@ function VideoBlock({ block }) {
                 </div>
                 <div className="video-copy">
                   <h3>{item.title}</h3>
+                  {item.publishedText || item.duration || item.views ? (
+                    <div className="video-meta">
+                      {item.publishedText ? <span>{item.publishedText}</span> : null}
+                      {item.duration ? <span>{item.duration}</span> : null}
+                      {item.views ? <span>{item.views}</span> : null}
+                    </div>
+                  ) : null}
                   <p>{item.description}</p>
                   {item.youtubeUrl ? (
                     <a className="text-link" href={item.youtubeUrl} target="_blank" rel="noreferrer">
@@ -1013,7 +1453,7 @@ function MediaBlock({ block }) {
       <div className="content-heading">
         <h2>{block.title}</h2>
       </div>
-      <div className={`media-frame media-block-frame ${block.compact ? 'compact' : ''}`}>
+      <div className={`media-frame media-block-frame ${block.compact ? 'compact' : ''} ${block.variant ? `media-block-frame--${block.variant}` : ''}`}>
         <img src={block.image} alt={block.imageAlt} loading="lazy" decoding="async" />
       </div>
     </section>

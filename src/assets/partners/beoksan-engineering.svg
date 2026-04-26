@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect width="320" height="96" fill="white"/>
+  <g transform="translate(52 32)">
+    <ellipse cx="14" cy="12" rx="14" ry="10" fill="#d5dc4f" transform="rotate(-20 14 12)"/>
+    <ellipse cx="26" cy="12" rx="14" ry="10" fill="#1b63b6" transform="rotate(20 26 12)"/>
+  </g>
+  <text x="98" y="58" font-family="Pretendard, Arial, sans-serif" font-size="25" font-weight="800" fill="#25529f">벽산엔지니어링</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect width="320" height="96" fill="white"/>
+  <g transform="translate(54 28)" fill="#d9485a">
+    <ellipse cx="16" cy="16" rx="6" ry="16"/>
+    <ellipse cx="16" cy="16" rx="6" ry="16" transform="rotate(45 16 16)"/>
+    <ellipse cx="16" cy="16" rx="6" ry="16" transform="rotate(90 16 16)"/>
+    <ellipse cx="16" cy="16" rx="6" ry="16" transform="rotate(135 16 16)"/>
+  </g>
+  <text x="98" y="58" font-family="Pretendard, Arial, sans-serif" font-size="25" font-weight="700" fill="#6f7378">신세계건설</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect width="320" height="96" fill="white"/>
+  <g transform="translate(22 24)">
+    <polygon points="0,30 18,0 38,30" fill="#3b8f4f"/>
+    <polygon points="18,0 38,30 58,30 40,0" fill="#f0b323"/>
+  </g>
+  <text x="88" y="58" font-family="Pretendard, Arial, sans-serif" font-size="28" font-weight="800" fill="#1d3f8f">현대건설</text>
+</svg>
