@@ -5,3 +5,8 @@ dist/
 .env
 .omx/
 static/2025_태일씨앤티_홍보영상_20250226.mp4
+*.mp4
+*.mov
+*.webm
+*.avi
+*.mkv

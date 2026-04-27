@@ -74,6 +74,8 @@ import projectWestinImage from '../assets/projects/project-westin-seoul-parnas.j
 import projectYonginOblImage from '../assets/projects/project-yongin-cluster-obl.jpg';
 import projectYonginUtilityTunnelImage from '../assets/projects/project-yongin-cluster-utility-tunnel.jpg';
 
+const assetUrl = (path) => new URL(path, import.meta.url).href;
+
 export const brand = {
   name: '태일씨앤티',
   englishName: 'TAEIL CONSTRUCTION & TECHNICAL CO., LTD.',
@@ -102,16 +104,24 @@ export const navigation = [
     label: '사업실적',
     section: 'performance',
     items: [
-      { label: '공사수주 현황', slug: 'order-status' },
+      {
+        label: '공사수주 현황',
+        slug: 'order-status',
+        children: [
+          { label: '공사수주 현황', slug: 'order-status' },
+          { label: '주택', slug: 'housing' },
+          { label: '업무시설', slug: 'office' },
+          { label: '교육/의료', slug: 'education-medical' },
+          { label: '플랜트', slug: 'plant' },
+          { label: '초고층', slug: 'high-rise' },
+          { label: '판매시설', slug: 'retail' },
+          { label: '기타', slug: 'others' },
+          { label: '권역별 프로젝트', slug: 'project-map' },
+        ],
+      },
       { label: '건설시공능력', slug: 'construction-capability' },
-      { label: '주택', slug: 'housing' },
-      { label: '업무시설', slug: 'office' },
-      { label: '교육/의료', slug: 'education-medical' },
-      { label: '플랜트', slug: 'plant' },
-      { label: '초고층', slug: 'high-rise' },
-      { label: '판매시설', slug: 'retail' },
-      { label: '기타', slug: 'others' },
-      { label: 'Project Map', slug: 'project-map' },
+      { label: '품질경영', slug: 'quality-management' },
+      { label: '안전경영', slug: 'safety-management' },
     ],
   },
   {
@@ -142,6 +152,7 @@ export const navigation = [
     label: '관리자',
     section: 'admin',
     items: [],
+    hideInNav: true,
   },
 ];
 
@@ -391,7 +402,6 @@ export const partnerGroups = [
   '동부건설',
   'KT engcore',
   '슈프림종합건설',
-  'DL이앤씨',
   'KCC건설',
   '현대아산',
   '한진중공업',
@@ -404,7 +414,6 @@ export const partnerGroups = [
   'CJ대한통운',
   'SK에코플랜트',
   '벽산엔지니어링',
-  'DL건설',
 ];
 
 export const partnerShowcase = [
@@ -436,9 +445,75 @@ export const partnerShowcase = [
   { name: 'DL건설', logo: dlConstructionLogo, alt: 'DL건설 로고' },
 ];
 
+const partnerLogoScaleMap = {
+  '삼성E&A': 0.98,
+  '현대건설': 1.22,
+  'CJ E&C': 1.08,
+  '고려개발': 1.55,
+  '동부건설': 1.42,
+  'KT engcore': 1.28,
+  '슈프림종합건설': 1.18,
+  '현대아산': 1.32,
+  '포스코A&C': 1.32,
+  '두산건설': 1.22,
+  'SM우방': 1.24,
+  '신세계건설': 1.18,
+  '한양': 1.28,
+  'HDC현대산업개발': 1.16,
+  '벽산엔지니어링': 1.28,
+  'DL건설': 1.16,
+};
+
+const partnerLogoOffsetMap = {
+  '현대건설': { x: '-6px', y: '0px' },
+  '대우건설': { x: '-4px', y: '0px' },
+  '한양': { x: '-5px', y: '0px' },
+  '벽산엔지니어링': { x: '-4px', y: '0px' },
+  'DL건설': { x: '0px', y: '-1px' },
+};
+
+const partnerPreparedImageMap = {
+  '삼성물산': assetUrl('../assets/partners_img/partner_01.jpg'),
+  '삼성엔지니어링': assetUrl('../assets/partners_img/partner_02.jpg'),
+  'HL D&I 한라': assetUrl('../assets/partners_img/partner_03.jpg'),
+  'GS건설': assetUrl('../assets/partners_img/partner_04.jpg'),
+  '현대엔지니어링': assetUrl('../assets/partners_img/partner_05.jpg'),
+  '현대건설': assetUrl('../assets/partners_img/partner_06.jpg'),
+  '대우건설': assetUrl('../assets/partners_img/partner_07.jpg'),
+  'CJ E&C': assetUrl('../assets/partners_img/partner_08.jpg'),
+  '고려개발': assetUrl('../assets/partners_img/partner_09.jpg'),
+  '동부건설': assetUrl('../assets/partners_img/partner_10.jpg'),
+  'KT engcore': assetUrl('../assets/partners_img/partner_11.jpg'),
+  '슈프림종합건설': assetUrl('../assets/partners_img/partner_12.jpg'),
+  'KCC건설': assetUrl('../assets/partners_img/partner_13.jpg'),
+  '현대아산': assetUrl('../assets/partners_img/partner_14.jpg'),
+  '한진중공업': assetUrl('../assets/partners_img/partner_15.jpg'),
+  '포스코A&C': assetUrl('../assets/partners_img/partner_16.jpg'),
+  '두산건설': assetUrl('../assets/partners_img/partner_17.jpg'),
+  'SM우방': assetUrl('../assets/partners_img/partner_18.jpg'),
+  '벽산엔지니어링': assetUrl('../assets/partners_img/partner_20.jpg'),
+  '신세계건설': assetUrl('../assets/partners_img/partner_21.jpg'),
+  '한양': assetUrl('../assets/partners_img/partner_22.jpg'),
+  'HDC현대산업개발': assetUrl('../assets/partners_img/partner_23.jpg'),
+  'CJ대한통운': assetUrl('../assets/partners_img/partner_24.jpg'),
+  'SK에코플랜트': assetUrl('../assets/partners_img/partner_25.jpg'),
+};
+
 export const allPartners = partnerGroups.map((name) => (
-  partnerShowcase.find((partner) => partner.name === name)
-  ?? { name, alt: `${name} 로고` }
+  (() => {
+    const partner = partnerShowcase.find((item) => item.name === name)
+      ?? { name, alt: `${name} 로고` };
+    const preparedLogo = partnerPreparedImageMap[name];
+    const offset = partnerLogoOffsetMap[name] ?? { x: '0px', y: '0px' };
+
+    return {
+      ...partner,
+      logo: preparedLogo ?? partner.logo,
+      logoScale: preparedLogo ? 1 : (partnerLogoScaleMap[name] ?? 1),
+      logoOffsetX: preparedLogo ? '0px' : offset.x,
+      logoOffsetY: preparedLogo ? '0px' : offset.y,
+    };
+  })()
 ));
 
 const partnerShowcaseNameSet = new Set(partnerShowcase.map((partner) => partner.name));
@@ -1058,6 +1133,38 @@ const regionMap = [
   { region: '기타', projects: 3, detail: '전국 주요 산업·유통 거점 확장' },
 ];
 
+const qualityManagementCertificationItems = [
+  {
+    date: '2022. 05. 09',
+    title: '품질경영시스템인증서\nKS Q ISO 9001:2015 / ISO 9001:2015',
+    logo: assetUrl('../assets/company/licenses/logos/logo_002.png'),
+    logoAlt: 'ISO 인증 로고',
+    document: assetUrl('../assets/company/licenses/docs/lisense_004.jpg'),
+  },
+  {
+    date: '2020. 08. 28',
+    title: '품질경영시스템인증서\nISO 9001:2015',
+    logo: assetUrl('../assets/company/licenses/logos/logo_04.png'),
+    logoAlt: 'ISO 인증 로고',
+  },
+];
+
+const safetyManagementCertificationItems = [
+  {
+    date: '2023. 07. 17',
+    title: '안전보건경영시스템인증서\nKS Q ISO 45001:2018 / ISO 45001:2018',
+    logo: assetUrl('../assets/company/licenses/logos/logo_002.png'),
+    logoAlt: 'ISO 인증 로고',
+    document: assetUrl('../assets/company/licenses/docs/lisense_006.jpg'),
+  },
+  {
+    date: '2020. 08. 28',
+    title: '안전보건경영시스템인증서\nOHSAS 18001:2007',
+    logo: assetUrl('../assets/company/licenses/logos/logo_04.png'),
+    logoAlt: 'ISO 인증 로고',
+  },
+];
+
 export const pages = {
   company: {
     overview: {
@@ -1207,21 +1314,179 @@ export const pages = {
     },
     certifications: {
       eyebrow: 'CERTIFICATION',
-      title: '품질·환경·안전 중심의 인증 체계',
-      description: '지속적인 기술 개선과 책임 있는 시공 운영을 위해 인증과 수상 체계를 확장해 왔습니다.',
+      title: '업·면허/인증',
+      description: '',
       blocks: [
         {
-          type: 'cards',
-          title: '업·면허 및 인증 현황',
+          type: 'licenseCatalog',
+          title: '업ㆍ면허',
           items: [
-            { title: 'KS Q ISO 9001:2015', description: '품질경영시스템 인증' },
-            { title: 'KS I ISO 14001:2015', description: '환경경영시스템 인증' },
-            { title: 'OHSAS 18001', description: '안전보건경영체계 기반 운영' },
-            { title: 'MAIN-BIZ', description: '경영혁신형 중소기업 인증' },
-            { title: '벤처기업', description: '기술보증기금 벤처기업 선정' },
-            { title: '기업부설연구소', description: '연구개발 체계 보유' },
-            { title: '국토교통부장관 표창', description: '건설산업 발전 기여' },
-            { title: '모범납세자', description: '성실한 경영과 사회적 책임 실천' },
+            {
+              date: '2023. 12. 19(각자대표)',
+              title: '사업자 등록증',
+              logo: assetUrl('../assets/company/licenses/logos/logo_000.png'),
+              logoAlt: '금천구청 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_000.jpg'),
+            },
+            {
+              date: '2022. 11. 21(재교부)',
+              title: '건설업 등록증\n철근·콘크리트 공사업',
+              logo: assetUrl('../assets/company/licenses/logos/logo_001.png'),
+              logoAlt: '금천구청 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_001.jpg'),
+            },
+            {
+              date: '2022. 11. 21(재교부)',
+              title: '건설업 등록증\n도장·습식·방수공사업',
+              logo: assetUrl('../assets/company/licenses/logos/logo_001.png'),
+              logoAlt: '금천구청 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_002.jpg'),
+            },
+            {
+              date: '2022. 11. 21(재교부)',
+              title: '건설업 등록증\n구조물해체·비계공사업',
+              logo: assetUrl('../assets/company/licenses/logos/logo_001.png'),
+              logoAlt: '금천구청 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_003.jpg'),
+            },
+            {
+              date: '2015. 10. 28',
+              title: '사업자 등록증',
+              logo: assetUrl('../assets/company/licenses/logos/logo_00.png'),
+              logoAlt: '관악구청 로고',
+            },
+            {
+              date: '1992. 08. 31',
+              title: '건설업 등록증\n철근·콘크리트 공사업',
+              logo: assetUrl('../assets/company/licenses/logos/logo_01.png'),
+              logoAlt: '관악구청 로고',
+            },
+            {
+              date: '2014. 03. 11',
+              title: '건설업 등록증\n미장·방수· 조적 공사업',
+              logo: assetUrl('../assets/company/licenses/logos/logo_01.png'),
+              logoAlt: '관악구청 로고',
+            },
+            {
+              date: '2015. 08. 26',
+              title: '건설업 등록증\n비계·구조물 해체 공사',
+              logo: assetUrl('../assets/company/licenses/logos/logo_01.png'),
+              logoAlt: '관악구청 로고',
+            },
+          ],
+        },
+        {
+          type: 'licenseCatalog',
+          title: '인증',
+          items: [
+            {
+              date: '2022. 12. 14',
+              title: '가족친화기업인증서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_003.png'),
+              logoAlt: '가족친화 우수기업 인증 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_008.jpg'),
+            },
+            {
+              date: '2017. 09. 15',
+              title: '좋은일자리기업템인증서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_004.png'),
+              logoAlt: '좋은일자리 기업 인증 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_009.jpg'),
+            },
+            {
+              date: '2022. 10. 01',
+              title: '인재육성형중소기업지정서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_005.png'),
+              logoAlt: '인재육성형 중소기업 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_010.jpg'),
+            },
+            {
+              date: '2022. 11. 16',
+              title: '근무혁신우수기업선정서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_006.png'),
+              logoAlt: '근무혁신 우수기업 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_011.jpg'),
+            },
+            {
+              date: '2022. 05. 09',
+              title: '품질경영시스템인증서\nKS Q ISO 9001:2015 / ISO 9001:2015',
+              logo: assetUrl('../assets/company/licenses/logos/logo_002.png'),
+              logoAlt: 'ISO 인증 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_004.jpg'),
+            },
+            {
+              date: '2022. 05. 09',
+              title: '환경경영시스템인증서\nKS Q ISO 14001:2015 / ISO 14001:2015',
+              logo: assetUrl('../assets/company/licenses/logos/logo_002.png'),
+              logoAlt: 'ISO 인증 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_005.jpg'),
+            },
+            {
+              date: '2023. 07. 17',
+              title: '안전보건경영시스템인증서\nKS Q ISO 45001:2018 / ISO 45001:2018',
+              logo: assetUrl('../assets/company/licenses/logos/logo_002.png'),
+              logoAlt: 'ISO 인증 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_006.jpg'),
+            },
+            {
+              date: '2022. 10. 26',
+              title: '경영혁신형 중소기업 확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_03.png'),
+              logoAlt: '메인비즈 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_007.jpg'),
+            },
+            {
+              date: '2020. 08. 28',
+              title: '품질경영시스템인증서\nISO 9001:2015',
+              logo: assetUrl('../assets/company/licenses/logos/logo_04.png'),
+              logoAlt: 'ISO 인증 로고',
+            },
+            {
+              date: '2020. 08. 28',
+              title: '환경경영시스템인증서\nISO 14001:2015',
+              logo: assetUrl('../assets/company/licenses/logos/logo_04.png'),
+              logoAlt: 'ISO 인증 로고',
+            },
+            {
+              date: '2020. 08. 28',
+              title: '안전보건경영시스템인증서\nOHSAS 18001:2007',
+              logo: assetUrl('../assets/company/licenses/logos/logo_04.png'),
+              logoAlt: 'ISO 인증 로고',
+            },
+            {
+              date: '2019. 10. 21',
+              title: '경영혁신형 중소기업 확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_03.png'),
+              logoAlt: '메인비즈 로고',
+            },
+            {
+              date: '2023. 01. 09',
+              title: '벤처기업확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_007.png'),
+              logoAlt: '벤처기업 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_012.jpg'),
+            },
+            {
+              date: '2023. 04. 13',
+              title: '중소기업확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_008.png'),
+              logoAlt: '중소기업현황정보시스템 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_013.jpg'),
+            },
+            {
+              date: '2023. 10. 26',
+              title: '성과공유기업확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_008.png'),
+              logoAlt: '중소기업현황정보시스템 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_014.jpg'),
+            },
+            {
+              date: '2024. 01. 30',
+              title: '소프트웨어사업자확인서',
+              logo: assetUrl('../assets/company/licenses/logos/logo_009.png'),
+              logoAlt: '소프트웨어산업협회 로고',
+              document: assetUrl('../assets/company/licenses/docs/lisense_015.jpg'),
+            },
           ],
         },
       ],
@@ -1235,6 +1500,10 @@ export const pages = {
           type: 'contact',
           title: '본사 안내',
           address: brand.address,
+          mapQuery: '서울 금천구 가산디지털2로 101',
+          mapName: '태일씨앤티',
+          mapLabel: '카카오맵에서 태일씨앤티 본사 위치를 바로 확인하세요.',
+          mapLevel: 3,
           tel: brand.tel,
           fax: brand.fax,
           email: brand.email,
@@ -1302,6 +1571,58 @@ export const pages = {
         },
       ],
     },
+    'quality-management': {
+      eyebrow: 'QUALITY MANAGEMENT',
+      title: '품질경영',
+      description: '고객 감동과 철저한 품질관리를 목표로, 현장별 기준 수립과 인증 기반 운영 체계를 지속적으로 강화하고 있습니다.',
+      blocks: [
+        {
+          type: 'quote',
+          quote: '고객감동 및 철저한 품질관리',
+          caption: '태일씨앤티는 계획-시공-점검 전 단계에서 품질 기준을 명확히 관리합니다.',
+        },
+        {
+          type: 'cards',
+          title: '품질경영 운영 원칙',
+          items: [
+            { title: '사전 품질 기준 수립', description: '프로젝트 착수 전 공종별 품질 기준과 점검 항목을 명확히 설정합니다.' },
+            { title: '현장 중심 점검 체계', description: '공정별 체크리스트와 협력사 협업을 통해 시공 품질을 상시 확인합니다.' },
+            { title: '지속 개선 프로세스', description: '완료 후 피드백과 재발 방지 조치를 통해 품질관리 체계를 고도화합니다.' },
+          ],
+        },
+        {
+          type: 'licenseCatalog',
+          title: '품질 관련 인증',
+          items: qualityManagementCertificationItems,
+        },
+      ],
+    },
+    'safety-management': {
+      eyebrow: 'SAFETY MANAGEMENT',
+      title: '안전경영',
+      description: '무재해 완벽시공을 목표로 위험요인을 선제적으로 관리하고, 인증 기반의 안전보건 체계를 현장에 적용하고 있습니다.',
+      blocks: [
+        {
+          type: 'quote',
+          quote: '무재해 완벽시공 및 철저한 사후관리',
+          caption: '태일씨앤티는 예방 중심 안전관리와 책임 있는 현장 운영을 지속합니다.',
+        },
+        {
+          type: 'cards',
+          title: '안전경영 운영 원칙',
+          items: [
+            { title: '위험성 사전 평가', description: '작업 전 위험요인을 식별하고 공정별 대응 계획을 수립합니다.' },
+            { title: '현장 안전보건 점검', description: '정기 점검과 협력사 합동 관리로 현장 안전수준을 상시 유지합니다.' },
+            { title: '인증 기반 체계 운영', description: 'ISO 45001 기반으로 안전보건경영 프로세스를 표준화하고 실행합니다.' },
+          ],
+        },
+        {
+          type: 'licenseCatalog',
+          title: '안전 관련 인증',
+          items: safetyManagementCertificationItems,
+        },
+      ],
+    },
     housing: {
       eyebrow: 'HOUSING',
       title: '주택 프로젝트',
@@ -1345,8 +1666,8 @@ export const pages = {
       blocks: [{ type: 'projectList', title: '기타 실적', items: projects.filter((project) => project.category === 'others') }],
     },
     'project-map': {
-      eyebrow: 'PROJECT MAP',
-      title: '권역별 프로젝트 분포',
+      eyebrow: 'REGIONAL PROJECTS',
+      title: '권역별 프로젝트 현황',
       description: '서울·경기권을 중심으로 전국 주요 거점에서 프로젝트 수행 경험을 확장하고 있습니다.',
       blocks: [
         {

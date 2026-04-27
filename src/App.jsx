@@ -21,21 +21,26 @@ import {
 } from 'lucide-react';
 import { Link, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import {
+  allPartners,
   brand,
   getNewsDetailPath,
   featuredProjects,
   getProjectDetailPath,
-  homeSections,
   navigation,
   newsItems,
   pages,
-  partnerShowcase,
+  stats,
   projectCategories,
   projectDetailPages,
   projects,
   videos,
 } from './data/siteData';
-import tomorrowHeroImage from '../static/tomorrow.png';
+import mainHeroImage1 from './assets/main_image/main_1.png';
+import mainHeroImage2 from './assets/main_image/main_2.png';
+import mainHeroImage3 from './assets/main_image/main_3.png';
+
+const KAKAO_MAP_APP_KEY = import.meta.env.VITE_KAKAO_MAP_APP_KEY;
+const KAKAO_MAP_SDK_ID = 'kakao-map-sdk';
 
 const sectionIcons = {
   company: Building2,
@@ -56,38 +61,61 @@ const categoryIcons = {
   others: HardHat,
 };
 
-const heroHotspots = [
-  {
-    id: 'plant',
-    title: '플랜트 시공',
-    description: '산업시설과 플랜트 구조물 공정 수행 역량',
-    top: '34%',
-    left: '24%',
-  },
-  {
-    id: 'residential',
-    title: '주택·초고층',
-    description: '도심 주거와 고층 복합개발 프로젝트 경험',
-    top: '34%',
-    left: '72%',
-  },
-  {
-    id: 'office',
-    title: '수원연무동 주상복합',
-    description: '도심 복합개발 현장의 주거·상업 복합 시공 프로젝트',
-    top: '56%',
-    left: '68%',
-  },
-  {
-    id: 'logistics',
-    title: '다이소 세종 온라인센터',
-    description: '대형 온라인 물류 거점 시공 수행 프로젝트',
-    top: '64%',
-    left: '88%',
-  },
+const heroSlides = [
+  { src: mainHeroImage1, alt: '수원연무동 주상복합 메인 비주얼', title: '수원연무동 주상복합' },
+  { src: mainHeroImage2, alt: '용인 Cluster 1기 OBL 메인 비주얼', title: '용인 Cluster 1기 OBL' },
+  { src: mainHeroImage3, alt: '다이소 세종 온라인센터 메인 비주얼', title: '다이소 세종 온라인센터' },
 ];
 
+
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+function loadKakaoMapSdk(appKey) {
+  if (!appKey || typeof window === 'undefined') {
+    return Promise.reject(new Error('Kakao Maps JavaScript 키가 설정되지 않았습니다.'));
+  }
+
+  if (window.kakao?.maps?.services) {
+    return Promise.resolve(window.kakao);
+  }
+
+  if (window.__kakaoMapSdkPromise) {
+    return window.__kakaoMapSdkPromise;
+  }
+
+  window.__kakaoMapSdkPromise = new Promise((resolve, reject) => {
+    const existingScript = document.getElementById(KAKAO_MAP_SDK_ID);
+
+    const handleLoad = () => {
+      if (!window.kakao?.maps) {
+        reject(new Error('Kakao Maps SDK를 불러오지 못했습니다.'));
+        return;
+      }
+
+      window.kakao.maps.load(() => resolve(window.kakao));
+    };
+
+    if (existingScript) {
+      if (window.kakao?.maps) {
+        handleLoad();
+      } else {
+        existingScript.addEventListener('load', handleLoad, { once: true });
+        existingScript.addEventListener('error', () => reject(new Error('Kakao Maps SDK 로드에 실패했습니다.')), { once: true });
+      }
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = KAKAO_MAP_SDK_ID;
+    script.async = true;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=services`;
+    script.onload = handleLoad;
+    script.onerror = () => reject(new Error('Kakao Maps SDK 로드에 실패했습니다.'));
+    document.head.appendChild(script);
+  });
+
+  return window.__kakaoMapSdkPromise;
+}
 const toDateTimeValue = (dateText) => dateText?.replaceAll('.', '-');
 
 function getHomeHeroMotion() {
@@ -194,6 +222,7 @@ function Layout({ children }) {
 
 function Header({ isHome, isMobileMenuOpen, setMobileMenuOpen }) {
   const [homeHeaderMode, setHomeHeaderMode] = useState(isHome ? 'home-intro-header' : '');
+  const visibleNavigation = navigation.filter((group) => !group.hideInNav);
 
   useEffect(() => {
     if (!isHome) {
@@ -246,7 +275,7 @@ function Header({ isHome, isMobileMenuOpen, setMobileMenuOpen }) {
         </Link>
 
         <nav className="desktop-nav" aria-label="주요 메뉴">
-          {navigation.map((group) => (
+          {visibleNavigation.map((group) => (
             <div key={group.section} className="nav-group">
               <NavLink className="nav-trigger" to={`/${group.section}`}>
                 {group.label}
@@ -278,7 +307,7 @@ function Header({ isHome, isMobileMenuOpen, setMobileMenuOpen }) {
       {isMobileMenuOpen ? (
         <div className="mobile-nav-panel">
           <div className="container mobile-nav-inner">
-            {navigation.map((group) => (
+            {visibleNavigation.map((group) => (
               <details key={group.section} open={group.items.length === 0}>
                 <summary>
                   <NavLink to={`/${group.section}`}>{group.label}</NavLink>
@@ -303,6 +332,7 @@ function Header({ isHome, isMobileMenuOpen, setMobileMenuOpen }) {
 
 function HomePage() {
   const [heroMotion, setHeroMotion] = useState(getHomeHeroMotion);
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
 
   useEffect(() => {
     let frameId = 0;
@@ -325,30 +355,41 @@ function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (heroSlides.length < 2) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setActiveHeroSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4800);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <section className="hero-section">
         <div className="hero-pin">
           <div className="hero-canvas">
             <div className="hero-media-reveal" style={heroMotion.mediaStyle}>
-              <img className="hero-media-asset hero-media-poster" src={tomorrowHeroImage} alt="태일씨앤티 메인 비주얼" />
-              <div className="hero-hotspot-layer" aria-label="메인 비주얼 주요 사업영역 안내">
-                {heroHotspots.map((spot) => (
-                  <button
-                    key={spot.id}
-                    type="button"
-                    className="hero-hotspot"
-                    style={{ top: spot.top, left: spot.left }}
-                    aria-label={`${spot.title}: ${spot.description}`}
-                  >
-                    <span className="hero-hotspot-dot" aria-hidden="true" />
-                    <span className="hero-hotspot-tooltip">
-                      <strong>{spot.title}</strong>
-                      <small>{spot.description}</small>
-                    </span>
-                  </button>
-                ))}
-              </div>
+              {heroSlides.map((slide, index) => (
+                <div
+                  key={slide.src}
+                  className={`hero-media-slide-frame ${index === activeHeroSlide ? 'is-active' : ''}`}
+                >
+                  <img
+                    className={`hero-media-asset hero-media-poster hero-media-slide ${index === activeHeroSlide ? 'is-active' : ''}`}
+                    src={slide.src}
+                    alt={slide.alt}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={index === 0 ? 'high' : 'auto'}
+                  />
+                  <div className="hero-slide-caption">
+                    <span>진행 프로젝트</span>
+                    <strong>{slide.title}</strong>
+                  </div>
+                </div>
+              ))}
+              <div className="hero-media-overlay" aria-hidden="true" />
             </div>
 
             <div className="hero-scroll-cue" style={{ opacity: heroMotion.cueOpacity }}>
@@ -358,6 +399,110 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <section className="section-block home-trust-section">
+        <div className="container home-trust-shell">
+          <div className="section-heading split home-trust-heading">
+            <div>
+              <p className="eyebrow">TRUST INDEX</p>
+              <h2>숫자로 증명하는 태일씨앤티</h2>
+              <p className="section-summary">
+                반복된 현장 수행 경험과 품질·안전 기준으로 축적해 온 태일씨앤티의 경쟁력을 핵심 지표로 보여드립니다.
+              </p>
+            </div>
+            <Link className="text-link" to="/company/history">
+              회사 연혁 보기 <ArrowRight size={16} />
+            </Link>
+          </div>
+          <div className="stats-grid compact home-trust-grid">
+            {stats.map((item) => (
+              <article key={item.label} className="stat-card compact home-stat-card">
+                <strong>{item.value}</strong>
+                <h3>{item.label}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block home-philosophy-section">
+        <div className="container home-philosophy-layout">
+          <article className="home-philosophy-intro">
+            <p className="eyebrow">PEOPLE & TRUST</p>
+            <h2>사람과 신뢰를 중심에 두는 경영 철학</h2>
+            <p className="home-philosophy-summary">
+              태일씨앤티는 기술과 실적 이전에 사람과 신뢰를 가장 중요한 경쟁력으로 바라보며,
+              자율과 책임이 공존하는 조직 운영을 통해 더 좋은 현장과 더 단단한 협업을 만들어갑니다.
+            </p>
+            <span className="home-philosophy-source">출처 · 중소기업신문 인터뷰</span>
+          </article>
+
+          <article className="home-philosophy-quote-card">
+            <span className="home-philosophy-mark">“</span>
+            <blockquote>
+              회사의 중심은 사람이며, 신뢰를 기반으로 한 자율경영이 최고의 조직을 만든다
+            </blockquote>
+            <div className="home-philosophy-tags" aria-label="핵심 가치">
+              <span>사람 중심</span>
+              <span>신뢰 기반</span>
+              <span>자율경영</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="section-block accent-surface">
+        <div className="container section-heading split">
+          <div>
+            <p className="eyebrow">PROJECTS</p>
+            <h2>대표 사업실적</h2>
+          </div>
+          <Link className="text-link" to="/performance/order-status">
+            전체 사업실적 보기 <ArrowRight size={16} />
+          </Link>
+        </div>
+        <div className="container project-grid">
+          {featuredProjects.map((project) => (
+            <ProjectCard key={project.name} project={project} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block dual-highlight">
+        <div className="container dual-highlight-grid">
+          <Link className="highlight-banner esg" to="/esg">
+            <Leaf size={22} />
+            <div>
+              <p className="eyebrow">ESG MANAGEMENT</p>
+              <h3>지속가능한 미래를 위한 책임 있는 경영</h3>
+              <span>ESG경영 보기</span>
+            </div>
+          </Link>
+          <Link className="highlight-banner recruit" to="/recruit">
+            <Users2 size={22} />
+            <div>
+              <p className="eyebrow">CAREERS</p>
+              <h3>함께 성장하며 미래를 설계할 인재를 기다립니다</h3>
+              <span>인재채용 보기</span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      <section className="section-block partner-strip-block">
+        <div className="container partner-network-panel">
+          <div className="section-heading split partner-network-heading">
+            <div>
+              <p className="eyebrow">NETWORK</p>
+              <h2>주거래 시공사 네트워크</h2>
+            </div>
+            <p className="section-summary">주요 시공사와의 협업 경험을 바탕으로 현장 대응력과 안정적인 공정 운영 체계를 구축하고 있습니다.</p>
+          </div>
+          <PartnerLogoWall partners={allPartners} />
+        </div>
+      </section>
+
 
       <section className="section-block home-news-section">
         <div className="container home-news-layout">
@@ -422,86 +567,26 @@ function HomePage() {
           </div>
         </div>
       </section>
-
-      <section className="section-block accent-surface">
-        <div className="container section-heading split">
-          <div>
-            <p className="eyebrow">PROJECTS</p>
-            <h2>대표 사업실적</h2>
-          </div>
-          <Link className="text-link" to="/performance/order-status">
-            전체 사업실적 보기 <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="container project-grid">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.name} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block dual-highlight">
-        <div className="container dual-highlight-grid">
-          <Link className="highlight-banner esg" to="/esg">
-            <Leaf size={22} />
-            <div>
-              <p className="eyebrow">ESG MANAGEMENT</p>
-              <h3>지속가능한 미래를 위한 책임 있는 경영</h3>
-              <span>ESG경영 보기</span>
-            </div>
-          </Link>
-          <Link className="highlight-banner recruit" to="/recruit">
-            <Users2 size={22} />
-            <div>
-              <p className="eyebrow">CAREERS</p>
-              <h3>함께 성장하며 미래를 설계할 인재를 기다립니다</h3>
-              <span>인재채용 보기</span>
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      <section className="section-block partner-strip-block">
-        <div className="container partner-network-panel">
-          <div className="section-heading split partner-network-heading">
-            <div>
-              <p className="eyebrow">NETWORK</p>
-              <h2>주거래 시공사 네트워크</h2>
-            </div>
-            <p className="section-summary">주요 시공사와의 협업 경험을 바탕으로 현장 대응력과 안정적인 공정 운영 체계를 구축하고 있습니다.</p>
-          </div>
-          <PartnerLogoWall partners={partnerShowcase} />
-        </div>
-      </section>
     </>
   );
 }
 
 function PartnerLogoWall({ partners }) {
   return (
-    <div className="partner-logo-wall" aria-label="주요 파트너사 목록">
-      <div className="partner-marquee-track">
-        {[0, 1].map((groupIndex) => (
-          <div
-            key={groupIndex}
-            className="partner-marquee-group"
-            aria-hidden={groupIndex === 1 ? 'true' : undefined}
-          >
-            {partners.map((partner) => (
-              <article key={`${partner.name}-${groupIndex}`} className="partner-logo-tile">
-                <div className="partner-logo-frame">
-                  <img
-                    className="partner-logo-image"
-                    src={partner.logo}
-                    alt={partner.alt ?? `${partner.name} 로고`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <strong>{partner.name}</strong>
-              </article>
-            ))}
-          </div>
+    <div className="partner-logo-wall partner-logo-wall-static" aria-label="주요 파트너사 목록">
+      <div className="partner-logo-grid home-partner-grid">
+        {partners.map((partner) => (
+          <article key={partner.name} className="partner-grid-tile home-partner-tile">
+            <div className="partner-grid-frame home-partner-frame">
+              <img
+                className="partner-grid-image home-partner-image"
+                src={partner.logo}
+                alt={partner.alt ?? `${partner.name} 로고`}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </article>
         ))}
       </div>
     </div>
@@ -582,8 +667,45 @@ function LegacyTopVisual({ section, navGroup, visualSource }) {
   );
 }
 
+function buildOrderStatusCategoryPath(categorySlug) {
+  if (!categorySlug || categorySlug === 'order-status') {
+    return '/performance/order-status';
+  }
+
+  return `/performance/order-status?category=${encodeURIComponent(categorySlug)}`;
+}
+
+function LegacySecondaryNav({ items, activeSlug, ariaLabel }) {
+  if (!items?.length) {
+    return null;
+  }
+
+  return (
+    <nav className="legacy-sub-nav legacy-sub-nav-secondary" aria-label={ariaLabel}>
+      <ul className="legacy-sub-nav-list legacy-sub-nav-list-secondary">
+        {items.map((item) => {
+          const isActive = item.slug === activeSlug;
+
+          return (
+            <li key={item.slug}>
+              <Link
+                className={`legacy-sub-nav-link legacy-secondary-nav-link ${isActive ? 'active' : ''}`}
+                to={buildOrderStatusCategoryPath(item.slug)}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
+
 function SectionPage() {
   const { section, slug } = useParams();
+  const location = useLocation();
   const navGroup = navigation.find((item) => item.section === section);
 
   if (!navGroup || !pages[section]) {
@@ -591,20 +713,46 @@ function SectionPage() {
   }
 
   const pageKey = slug ?? 'overview';
-  const page = pages[section][pageKey] ?? null;
+  const topLevelPageSlugs = new Set(navGroup.items.map((item) => item.slug));
+
+  if (section === 'performance' && slug && !topLevelPageSlugs.has(slug)) {
+    return <NotFoundPage />;
+  }
+
+  const orderStatusItem = section === 'performance'
+    ? navGroup.items.find((item) => item.slug === 'order-status')
+    : null;
+  const orderStatusChildren = orderStatusItem?.children ?? [];
+  const isOrderStatusPage = section === 'performance' && pageKey === 'order-status';
+  const searchParams = new URLSearchParams(location.search);
+  const requestedCategory = searchParams.get('category');
+  const activeOrderStatusSlug = isOrderStatusPage && orderStatusChildren.some((item) => item.slug === requestedCategory)
+    ? requestedCategory
+    : 'order-status';
+  const resolvedPageKey = isOrderStatusPage ? activeOrderStatusSlug : pageKey;
+  const page = pages[section][resolvedPageKey] ?? null;
 
   if (!page) {
     return <NotFoundPage />;
   }
 
   const currentLabel = slug ? navGroup.items.find((item) => item.slug === slug)?.label ?? page.title : navGroup.label;
-  const visualSource = getLegacyVisualSource(section, pageKey, page);
+  const visualSource = getLegacyVisualSource(section, resolvedPageKey, page);
   const hasSummaryTitle = Boolean(page.title?.trim()) && page.title !== currentLabel;
   const hasSummaryDescription = Boolean(page.description?.trim());
 
   return (
     <div className={`subpage-shell legacy-page-shell legacy-section-${section}`}>
       <LegacyTopVisual section={section} navGroup={navGroup} visualSource={visualSource} />
+      {isOrderStatusPage ? (
+        <div className="container legacy-secondary-nav-wrap">
+          <LegacySecondaryNav
+            items={orderStatusChildren}
+            activeSlug={activeOrderStatusSlug}
+            ariaLabel="공사수주 현황 세부 메뉴"
+          />
+        </div>
+      ) : null}
 
       <div className="container legacy-container-box">
         <header className="legacy-title-header">
@@ -640,6 +788,7 @@ function ProjectDetailPage() {
     return <NotFoundPage />;
   }
 
+  const orderStatusChildren = navGroup.items.find((item) => item.slug === 'order-status')?.children ?? [];
   const detail = projectDetailPages[project.name];
   const gallery = detail.gallery?.length > 0
     ? detail.gallery
@@ -669,6 +818,13 @@ function ProjectDetailPage() {
   return (
     <div className="subpage-shell legacy-page-shell legacy-section-performance">
       <LegacyTopVisual section="performance" navGroup={navGroup} visualSource={project.image} />
+      <div className="container legacy-secondary-nav-wrap">
+        <LegacySecondaryNav
+          items={orderStatusChildren}
+          activeSlug={project.category}
+          ariaLabel="공사수주 현황 세부 메뉴"
+        />
+      </div>
 
       <div className="container legacy-container-box">
         <header className="legacy-title-header">
@@ -848,6 +1004,8 @@ function PageBlocks({ blocks }) {
             return <PartnerGridBlock key={`${block.title}-${index}`} block={block} />;
           case 'hrPanels':
             return <HrPanelsBlock key={`hr-panels-${index}`} block={block} />;
+          case 'licenseCatalog':
+            return <LicenseCatalogBlock key={`${block.title}-${index}`} block={block} />;
           case 'timeline':
             return <TimelineBlock key={`${block.title}-${index}`} block={block} />;
           case 'projectList':
@@ -1018,6 +1176,16 @@ function SpotlightBlock({ block }) {
   );
 }
 
+function getMediaFrameClassName(block, additionalClassName = '') {
+  return [
+    'media-frame',
+    'media-block-frame',
+    additionalClassName,
+    block.compact ? 'compact' : '',
+    block.variant ? `media-block-frame--${block.variant}` : '',
+  ].filter(Boolean).join(' ');
+}
+
 function CardsBlock({ block }) {
   return (
     <section className="content-block">
@@ -1027,7 +1195,7 @@ function CardsBlock({ block }) {
         </div>
       ) : null}
       {block.image ? (
-        <div className="media-frame card-block-image">
+        <div className={getMediaFrameClassName(block, 'card-block-image')}>
           <img src={block.image} alt={block.imageAlt} loading="lazy" decoding="async" />
         </div>
       ) : null}
@@ -1066,6 +1234,11 @@ function PartnerGridBlock({ block }) {
                     className="partner-grid-image"
                     src={partner.logo}
                     alt={partner.alt ?? `${partner.name} 로고`}
+                    style={{
+                      '--partner-logo-scale': partner.logoScale ?? 1,
+                      '--partner-logo-offset-x': partner.logoOffsetX ?? '0px',
+                      '--partner-logo-offset-y': partner.logoOffsetY ?? '0px',
+                    }}
                     loading="lazy"
                     decoding="async"
                   />
@@ -1121,6 +1294,43 @@ function HrPanelsBlock({ block }) {
             </div>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function LicenseCatalogBlock({ block }) {
+  return (
+    <section className="content-block license-catalog-block">
+      <div className="license-catalog-heading">
+        <h2>{block.title}</h2>
+      </div>
+
+      <div className="license-grid">
+        {block.items.map((item) => {
+          const CardTag = item.document ? 'a' : 'article';
+          const cardProps = item.document
+            ? {
+              href: item.document,
+              target: '_blank',
+              rel: 'noreferrer',
+            }
+            : {};
+
+          return (
+            <CardTag
+              key={`${block.title}-${item.title}-${item.date}`}
+              className={`license-card ${item.document ? 'is-link' : ''}`}
+              {...cardProps}
+            >
+              <div className="license-card-logo">
+                <img src={item.logo} alt={item.logoAlt ?? `${item.title} 로고`} loading="lazy" decoding="async" />
+              </div>
+              <span>{item.date}</span>
+              <strong>{item.title}</strong>
+            </CardTag>
+          );
+        })}
       </div>
     </section>
   );
@@ -1453,7 +1663,7 @@ function MediaBlock({ block }) {
       <div className="content-heading">
         <h2>{block.title}</h2>
       </div>
-      <div className={`media-frame media-block-frame ${block.compact ? 'compact' : ''} ${block.variant ? `media-block-frame--${block.variant}` : ''}`}>
+      <div className={getMediaFrameClassName(block)}>
         <img src={block.image} alt={block.imageAlt} loading="lazy" decoding="async" />
       </div>
     </section>
@@ -1461,30 +1671,140 @@ function MediaBlock({ block }) {
 }
 
 function ContactBlock({ block }) {
+  const mapSearchUrl = `https://map.kakao.com/link/search/${encodeURIComponent(block.mapQuery ?? block.address)}`;
+
   return (
     <section className="content-block contact-block">
       <div className="content-heading">
         <h2>{block.title}</h2>
       </div>
-      <div className="contact-grid">
-        <div className="info-card contact-card">
-          <h3>주소</h3>
-          <p>{block.address}</p>
-          <h3>대표 연락처</h3>
-          <p>TEL. {block.tel}</p>
-          <p>FAX. {block.fax}</p>
-          <p>E-mail. {block.email}</p>
-        </div>
+      <div className="contact-location-shell">
         <div className="info-card contact-card map-card">
-          <h3>방문 안내</h3>
-          <p>{block.details[0]}</p>
-          <p>{block.details[1]}</p>
-          <a className="text-link" href="https://www.taeilcnt.co.kr/" target="_blank" rel="noreferrer">
-            기존 홈페이지 정보 확인 <ArrowRight size={16} />
-          </a>
+          <div className="kakao-map-header">
+            <div>
+              <h3>카카오맵 위치 안내</h3>
+              <p>{block.mapLabel ?? '본사 위치를 지도에서 바로 확인하실 수 있습니다.'}</p>
+            </div>
+            <a className="button secondary" href={mapSearchUrl} target="_blank" rel="noreferrer">
+              지도 크게 보기
+            </a>
+          </div>
+
+          <KakaoMapPanel block={block} />
+        </div>
+
+        <div className="contact-grid">
+          <div className="info-card contact-card">
+            <h3>주소</h3>
+            <p>{block.address}</p>
+            <h3>대표 연락처</h3>
+            <p>TEL. {block.tel}</p>
+            <p>FAX. {block.fax}</p>
+            <p>E-mail. {block.email}</p>
+          </div>
+          <div className="info-card contact-card">
+            <h3>방문 안내</h3>
+            <p>{block.details[0]}</p>
+            <p>{block.details[1]}</p>
+            <div className="contact-actions">
+              <a className="button secondary" href={mapSearchUrl} target="_blank" rel="noreferrer">
+                카카오맵 검색
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function KakaoMapPanel({ block }) {
+  const mapRef = useRef(null);
+  const [mapError, setMapError] = useState('');
+  const [resolvedLink, setResolvedLink] = useState(`https://map.kakao.com/link/search/${encodeURIComponent(block.mapQuery ?? block.address)}`);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!KAKAO_MAP_APP_KEY) {
+      setMapError('카카오맵 API 키가 설정되지 않아 지도를 표시할 수 없습니다.');
+      return undefined;
+    }
+
+    loadKakaoMapSdk(KAKAO_MAP_APP_KEY)
+      .then((kakao) => {
+        if (cancelled || !mapRef.current) {
+          return;
+        }
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(
+          block.mapQuery ?? block.address,
+          (result, status) => {
+            if (cancelled) {
+              return;
+            }
+
+            if (status !== kakao.maps.services.Status.OK || !result?.[0]) {
+              setMapError('주소를 기반으로 지도를 불러오지 못했습니다.');
+              return;
+            }
+
+            const { x, y } = result[0];
+            const position = new kakao.maps.LatLng(Number(y), Number(x));
+            const map = new kakao.maps.Map(mapRef.current, {
+              center: position,
+              level: block.mapLevel ?? 3,
+            });
+
+            const marker = new kakao.maps.Marker({
+              position,
+              map,
+            });
+
+            const infoWindow = new kakao.maps.InfoWindow({
+              content: `<div style="padding:8px 12px;font-size:13px;font-weight:700;color:#17352c;">${block.mapName ?? brand.name}</div>`,
+            });
+
+            infoWindow.open(map, marker);
+
+            const zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+            const mapTypeControl = new kakao.maps.MapTypeControl();
+            map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+            setResolvedLink(`https://map.kakao.com/link/map/${encodeURIComponent(block.mapName ?? brand.name)},${y},${x}`);
+          },
+        );
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setMapError(error.message);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [block]);
+
+  if (mapError) {
+    return (
+      <div className="kakao-map-fallback">
+        <strong>카카오맵을 불러오지 못했습니다.</strong>
+        <p>{mapError}</p>
+        <a className="button secondary" href={resolvedLink} target="_blank" rel="noreferrer">
+          카카오맵에서 위치 확인
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="kakao-map-shell">
+      <div ref={mapRef} className="kakao-map-canvas" aria-label="태일씨앤티 카카오맵 위치" />
+    </div>
   );
 }
 
